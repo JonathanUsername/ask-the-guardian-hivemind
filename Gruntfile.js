@@ -10,11 +10,23 @@ module.exports = function (grunt) {
 
   var reloadPort = 35729, files;
 
+  grunt.loadNpmTasks('grunt-wiredep');
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     develop: {
       server: {
         file: 'bin/www'
+      }
+    },
+    wiredep: {
+      app: {
+        src: [
+          'views/*.html',   // .html support...
+          'views/*.jade',   // .jade support...
+          'public/css/*.scss',  // .scss & .sass support..
+          'public/js/*.js'
+        ]
       }
     },
     sass: {
@@ -82,6 +94,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'sass',
+    'wiredep',
     'develop',
     'watch'
   ]);
