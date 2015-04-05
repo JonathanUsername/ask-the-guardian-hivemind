@@ -14,8 +14,9 @@ $(document).ready(function(){
 				fontFamily: "BreeSerif",
 				gridSize:15
 			})
-		}).fail(function(err){
-			alert(err)
+		}).fail(function(jqXHR,textStatus,errorThrown){
+			console.log(jqXHR,textStatus,errorThrown)
+			alert(textStatus,errorThrown,"Error connecting to server")
 		})
 	})
 

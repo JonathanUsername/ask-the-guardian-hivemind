@@ -7,6 +7,13 @@ a {
   color: #00B7FF;
 }
 
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .navbar {
 	font-family: BreeSerif;
 	background: #005689;
@@ -38,4 +45,65 @@ a {
 .canvas-holder{
 	width:100vw;
 	height: 100vh;
+}
+
+@media only screen and (max-width: 330px) {
+	.navbar {
+		.navopt {
+			min-width:300px;
+			p {
+				padding: 0;
+			}
+			display: inline-block;
+			padding: 10px;
+			&.section {
+				width: 66.666%;
+				select {
+					width:auto;
+				}
+			}
+			&.search {
+				vertical-align: top;
+				width:33.333%;
+			}
+		}
+		.title {
+			h1 {
+				font-size:20px;
+			}
+			padding-bottom: 10px;
+		}
+	}
+}
+
+@media only screen and (max-width: 640px) {
+	.navbar .title {
+		h1 {
+			font-size:25px;
+		}
+		padding-bottom:10px;
+	}
+}
+
+@media only screen and (max-height: 500px) {
+	.navbar #navbar {
+		width:100%;
+		.navopt {
+			width:33.33%;
+			display:inline;
+			vertical-align: middle;
+			& > select, button{
+				max-width:33.333%;
+				display:inline-block;
+				margin: 10px;
+			}
+		}
+		.title {
+			h1 {
+				font-size:25px;
+			}
+			padding-bottom:10px;
+		}
+		
+	}
 }

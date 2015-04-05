@@ -20,9 +20,17 @@ router.get('/', function(req, res, next) {
 });
 
 function guardianSearch(query,cb){
+	var url, today, yesterday, todays_date, yesterdays_date;
+	// today = new Date()
+	// yesterday = new Date(today)
+	// yesterday.setDate(today.getDate() - 1)
+	// todays_date = today.toISOString().split("T")[0]
+	// yesterdays_date = yesterday.toISOString().split("T")[0]
+	// query["to-date"] = todays_date
+	// query["from-date"] = yesterdays_date
 	query["api-key"] = apikey.key
 	query["page-size"] = 200
-	var url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
+	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
 	request(url, function(err,res,bod){
 		if (err){
 			return err
