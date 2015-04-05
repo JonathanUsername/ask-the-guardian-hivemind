@@ -4,6 +4,7 @@ var router = express.Router();
 var request = require('request');
 var apikey = require ('../keys.private.json')
 var _ = require ('underscore')
+var config = require('../config.json')
 
 router.get('/', function(req, res, next) {
 	var query = "politics";
@@ -35,17 +36,19 @@ function guardianSearch(query,cb){
 			    for (var ind in arr){
 			        var word = arr[ind]
 			        word = word.replace(/’s/g, '')
-			        word = word.replace(/([^a-z0-9]+)/gi, '')
+			        word = word.replace(/([^a-z]+)/gi, '')
 			        word = word.toLowerCase()
 			        if (tally[word]){
-			            tally[word] += 1
+			            tally[word] += config.stepSize
 			        } else {
-			            tally[word] = 1
+			            tally[word] = config.minSize
 			        }
 			    }
 			}
-			for (var key in tally){
-			    twodarr.push([key,tally[key]])
+			for (var word in tally){
+				if (config.filter.indexOf(word) == -1 && word.length > 1){
+				    twodarr.push([word,tally[word]])
+				}
 			}
 			cb(twodarr)
 		}

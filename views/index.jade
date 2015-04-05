@@ -3,25 +3,17 @@ extends layout
 block content
     nav.navbar.navbar-default.navbar-static
         div.container
-            div.navbar-header.row
-                div.col-xs-9.title
-                    h1 What does 
-                    h1.lightblue The Guardian 
+            div.row
+                div.col-xs-10.col-sm-7.col-md-7.title
+                    h1.lightblue What does The Guardian 
                     h1 care about today?
-                div.col-xs-offset-1.col-xs-2
-                    button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar", aria-expanded="true", aria-controls="navbar")
-                        span.sr-only Toggle navigation
-                        span.icon-bar
-                        span.icon-bar
-                        span.icon-bar
-            div#navbar.navbar-collapse.collapse
-                ul.nav.navbar-nav
-                    li.navopt Section:
+                div#navbar.col-xs-12.col-sm-5.col-md-5
+                    div.navopt Section:
                         select#section.form-control
                             option(value="news") News
                             option(value="politics") Politics
                             option(value="commentisfree") Comment is Free
-                    li.navopt
+                    div.navopt
                         button.btn.btn-primary#goSearch Search
     div.canvas-holder
         canvas#cloudCanvas

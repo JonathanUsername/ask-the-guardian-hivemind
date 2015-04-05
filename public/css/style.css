@@ -1,16 +1,23 @@
+@font-face {
+  font-family: BreeSerif;
+  src: url(BreeSerif-Regular.otf); }
+
 a {
   color: #00B7FF; }
 
 .navbar {
-  font-family: Montserrat;
+  font-family: BreeSerif;
   background: #005689;
   color: #fff;
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: 3px solid #00456E; }
+  .navbar #navbar {
+    background: #00456E; }
   .navbar .title {
-    padding: 10px; }
+    padding: 10px;
+    padding-bottom: 40px; }
   .navbar h1 {
     display: inline; }
     .navbar h1.lightblue {
