@@ -25,8 +25,10 @@ module.exports = function (grunt) {
           'views/*.html',   // .html support...
           'views/*.jade',   // .jade support...
           'public/css/*.scss',  // .scss & .sass support..
-          'public/js/*.js'
-        ]
+          'public/js/*.js',
+          'public/js/**/.js'
+        ],
+        ignorePath: '../public/'
       }
     },
     sass: {
@@ -90,6 +92,15 @@ module.exports = function (grunt) {
           done(reloaded);
         });
     }, 500);
+  });
+
+  grunt.registerTask('update-quiscustodiet', 'update my local js file', function() {
+      var exec = require('child_process').exec;
+      var cb = this.async();
+      exec('bower install ./public/js/quiscustodiet/ --save', {cwd: './frontend'}, function(err, stdout, stderr) {
+          console.log(stdout);
+          cb();
+      });
   });
 
   grunt.registerTask('default', [

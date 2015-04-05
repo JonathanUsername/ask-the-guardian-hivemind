@@ -1,6 +1,25 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
-
 a {
   color: #00B7FF; }
+
+.navbar {
+  font-family: Montserrat;
+  background: #005689;
+  color: #fff;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 3px solid #00456E; }
+  .navbar .title {
+    padding: 10px; }
+  .navbar h1 {
+    display: inline; }
+    .navbar h1.lightblue {
+      color: #A8D8F2; }
+  .navbar .navopt {
+    display: block;
+    width: 100%;
+    padding: 10px; }
+
+.canvas-holder {
+  width: 100vw;
+  height: 100vh; }

@@ -6,14 +6,20 @@ html(lang='en')
     title= title
     block css
       //- bower:css
+      link(rel='stylesheet', href='components/bootstrap/dist/css/bootstrap.css')
+      link(rel='stylesheet', href='components/fontawesome/css/font-awesome.css')
       //- endbower
       link(rel='stylesheet', href='/css/style.css')
+      link(href='http://fonts.googleapis.com/css?family=Montserrat', rel='stylesheet', type='text/css')
     block js
+      //- bower:js
+      script(src='components/jquery/dist/jquery.js')
+      script(src='components/wordcloud2.js/src/wordcloud2.js')
+      script(src='components/underscore/underscore.js')
+      script(src='components/bootstrap/dist/js/bootstrap.js')
+      //- endbower
+      script(src='js/quiscustodiet.js')
       if ENV_DEVELOPMENT
-        //- bower:js
-        script(src='../public/components/jquery/dist/jquery.js')
-        script(src='../public/components/underscore/underscore.js')
-        //- endbower
         script(src='http://localhost:35729/livereload.js')
   body
     block content
