@@ -11,8 +11,10 @@ block content
                     //- div.navopt.section
                     //-     input(placeholder="Enter a tag")
                     div.navopt.search
-                        p Regurgitate headline soup from:
+                        p What do you think about...
+                        input#question(type="text", class="form-control", placeholder='Question')
                         select#section.form-control
+                            option(value="") All
                             option(value="news") News
                             option(value="politics") Politics
                             option(value="commentisfree") Comment is Free
@@ -25,17 +27,3 @@ block content
                         button.btn.btn-primary#goSearch Search
     div.canvas-holder
         canvas#cloudCanvas
-
-
-//- <li class="dropdown">
-//-   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-//-   <ul class="dropdown-menu" role="menu">
-//-     <li><a href="#">Action</a></li>
-//-     <li><a href="#">Another action</a></li>
-//-     <li><a href="#">Something else here</a></li>
-//-     <li class="divider"></li>
-//-     <li class="dropdown-header">Nav header</li>
-//-     <li><a href="#">Separated link</a></li>
-//-     <li><a href="#">One more separated link</a></li>
-//-   </ul>
-//- </li>
