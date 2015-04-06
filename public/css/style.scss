@@ -25,17 +25,20 @@ body {
 	#section {
 		min-width: 100px;
 		max-width: 180px;
-		margin-bottom: 10px;
 	}
 	#to-date {
 		min-width: 100px;
 		max-width: 150px;
 		padding-left:15px;
 	}
-	#to-date, #section {
+	.input-block {
+		&.optional.closed {
+			display:none;
+		}
 		display: inline-block;
 		vertical-align: top;
 		margin-right:10px;
+		margin-bottom: 10px;
 	}
 	#navbar {
 		background: #00456E;
@@ -54,6 +57,9 @@ body {
 		display:block;
 		width:100%;
 		padding:10px;
+		i {
+			font-size:20px
+		}
 	}
 }
 

@@ -17,6 +17,11 @@ var data = {
         }
 
 
+var BODYSEARCH = false;
+var CACHING = true;
+// delete records after a week
+var CACHING_TTL = 604800;
+
 // DATABASE
 // db name : guardian
 // collections : queries
@@ -32,20 +37,25 @@ db.on('error',function(err) {
 
 
 router.get('/', function(req, res, next) {
-	var query = "politics";
+	var query;
 	console.log(req.query);
 	if (!(_.isEmpty(req.query))){
 		query = req.query;
-		checkCache(query, function(exists, cache){
-			if (exists){
-				console.log(cache.array)
-				res.send(cache.array)
-			} else {
-			 	guardianSearch(query, function(array){
-			 		res.send(array);
-			 	})
-			}
-		})
+		if (CACHING){
+			checkCache(query, function(exists, cache){
+				if (exists){
+					res.send(cache.array)
+				} else {
+				 	guardianSearch(query, function(array){
+				 		res.send(array);
+				 	})
+				}
+			})
+		} else {
+			guardianSearch(query, function(array){
+				res.send(array);
+			})
+		}
 	} else {
 		res.send("No query.")
 	}
@@ -54,31 +64,40 @@ router.get('/', function(req, res, next) {
 function guardianSearch(query,cb){
 	var url;
 	query["api-key"] = apikey.key
-	// query["show-fields"] = body
+	query["show-fields"] = "headline"
+	if (BODYSEARCH){
+		query["show-fields"] = "body,headline"
+	}
 	query["page-size"] = 200
 	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
+	console.log(url)
 	request(url, function(err,res,bod){
 		if (err){
 			return err
 		} else {
 			var data = JSON.parse(bod);
 			var results = data.response.results;
+			console.log(data.response)
 			var tally = {} 
 			var twodarr = [] 
 			for (var i in results){
-			    var arr = results[i].webTitle.split(' ')
-			    for (var ind in arr){
-			        var word = arr[ind];
-			        word = word.replace(/'s/g, '')
-			        word = word.replace(/’s/g, '')
-			        word = word.replace(/([^a-z]+)/gi, '')
-			        word = word.toLowerCase()
-			        if (tally[word]){
-			            tally[word] += config.stepSize
-			        } else {
-			            tally[word] = config.minSize
-			        }
-			    }
+				var fields = results[i].fields
+				for (var i in fields){
+					var text = fields[i]
+				    var arr = text.split(' ')
+				    for (var ind in arr){
+				        var word = arr[ind];
+				        word = word.replace(/'s/g, '')
+				        word = word.replace(/’s/g, '')
+				        word = word.replace(/([^a-z]+)/gi, '')
+				        word = word.toLowerCase()
+				        if (tally[word]){
+				            tally[word] += config.stepSize
+				        } else {
+				            tally[word] = config.minSize
+				        }
+				    }
+				}
 			}
 			for (var word in tally){
 				if (config.filter.indexOf(word) == -1 && word.length > 1){
@@ -87,9 +106,12 @@ function guardianSearch(query,cb){
 			}
 			cb(twodarr)
 			query.array = twodarr
-			updateCache(query, results, function(){
-				console.log("Finished updating cache.")
-			})
+			query.results = results
+			if (CACHING){
+				updateCache(query, results, function(){
+					console.log("Finished updating cache.")
+				})
+			}
 		}
 	})
 }
@@ -110,13 +132,13 @@ function guardianSearch(query,cb){
 	// });
 
 function checkCache(query, cb){
-	DBqueries.findOne({ "to-date" : query["to-date"] }, function(err, doc) {
-	    if (doc == null){
+	DBqueries.find({ "q" : query["q"] }, function(err, docs) {
+	    if (docs.length == 0){
 	    	"Record not in cache."
 	    	cb(false)
 	    } else { 
 	    	"Record exists in cache."
-	    	cb(true, doc)
+	    	cb(true, docs[0])
 	    }
 	});
 }
@@ -124,12 +146,8 @@ function checkCache(query, cb){
 function updateCache(query, results, cb){
 	DBqueries.insert(query, function() {
 	    console.log("Updated queries.")
+	    cb()
 	});
-	for (var i in results){
-		DBresults.update({"id" : results[i].id}, results[i], {upsert:true}, function() {
-		    console.log("Updated results.")
-		});
-	}
 }
 
 module.exports = router;

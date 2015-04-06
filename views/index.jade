@@ -12,18 +12,18 @@ block content
                     //-     input(placeholder="Enter a tag")
                     div.navopt.search
                         p What do you think about...
-                        input#question(type="text", class="form-control", placeholder='Question')
-                        select#section.form-control
-                            option(value="") All
+                        input#question.input-block(type="text", class="form-control", placeholder='')
+                        select#section.input-block.optional.closed.form-control
+                            option(value="commentisfree") Comment is Free
                             option(value="news") News
                             option(value="politics") Politics
-                            option(value="commentisfree") Comment is Free
                             option(value="world") World
                             option(value="culture") Culture
                             option(value="business") Economy
                             option(value="environment") Environment
                             option(value="technology") Technology
-                        input#to-date.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
-                        button.btn.btn-primary#goSearch Search
+                        input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
+                        button.btn.btn-primary#openOptions Options
+                            //- i.fa-ellipsis-v.fa
     div.canvas-holder
         canvas#cloudCanvas
