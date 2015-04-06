@@ -1,4 +1,8 @@
 node_modules/
-public/components
+public/components/
 .sass-cache
 *.private.json
+
+
+# But not these..
+!public/components/wordcloud2.js
