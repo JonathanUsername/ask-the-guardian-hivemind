@@ -109,8 +109,6 @@ for (var i in results){
         }
     }
 }
-console.log(tally)
 for (var key in tally){
     twodarr.push([key,tally[key]])
 }
-console.log(twodarr)

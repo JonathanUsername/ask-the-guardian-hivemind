@@ -5,7 +5,12 @@ $(document).ready(function(){
 		canvas = document.getElementById('cloudCanvas');
 	$('.datepicker').datepicker()
 	$("#goSearch").click(function(){
-		var qs = "?section=" + $("#section").val()
+		var params, qs;
+		params = {
+			"section": $("#section").val(),
+			"to-date": $("#to-date").val()
+		}
+		qs = "?" + $.param(params)
 		$.ajax({
 			url:"/search" + qs
 		}).done(function(data){

@@ -21,7 +21,7 @@ block content
                             option(value="business") Economy
                             option(value="environment") Environment
                             option(value="technology") Technology
-                        input#date.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}')
+                        input#to-date.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
                         button.btn.btn-primary#goSearch Search
     div.canvas-holder
         canvas#cloudCanvas
