@@ -19,6 +19,7 @@ var data = {
 
 var BODYSEARCH = false;
 var CACHING = true;
+var CACHING_RESULTS = false;
 // delete records after a week
 var CACHING_TTL = 604800;
 
@@ -105,9 +106,11 @@ function guardianSearch(query,cb){
 				}
 			}
 			cb(twodarr)
-			query.array = twodarr
-			query.results = results
 			if (CACHING){
+				query.array = twodarr
+				if (CACHING_RESULTS){
+					query.results = results
+				}
 				updateCache(query, results, function(){
 					console.log("Finished updating cache.")
 				})
