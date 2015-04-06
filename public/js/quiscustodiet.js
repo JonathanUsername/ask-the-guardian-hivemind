@@ -2,7 +2,8 @@ $(document).ready(function(){
 	var screenh = $("body").outerHeight(),
 		navh = $("nav.navbar").outerHeight(),
 		canvh = screenh - navh,
-		canvas = document.getElementById('cloudCanvas');
+		canvas = document.getElementById('cloudCanvas'),
+		windoww = window.innerWidth;
 	$('.datepicker').datepicker()
 	$("#goSearch").click(function(){
 		var params, qs;
@@ -14,11 +15,13 @@ $(document).ready(function(){
 		$.ajax({
 			url:"/search" + qs
 		}).done(function(data){
-			console.log(data)
+			data.forEach(function(i){
+				i[1] = i[1] * Math.max(1, windoww / 700) 
+			})
 			WordCloud(canvas, {
 				list: data,
 				fontFamily: "BreeSerif",
-				gridSize:15
+				gridSize:5 + Math.max(1, windoww / 700)
 			})
 		}).fail(function(jqXHR,textStatus,errorThrown){
 			console.log(jqXHR,textStatus,errorThrown)

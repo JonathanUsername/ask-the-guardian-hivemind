@@ -1,5 +1,5 @@
 {
 	"minSize": 10,
 	"stepSize":2,
-	"filter": ["and","it","the","to","of","in","a","an","on","we","i","he","she","is","for","we","how","but","so","not","weatherwatch"]
+	"filter": ["clarifications","corrections","editorial","photo","quiz","daily","day","pictures","hours","and","at","as","it","the","to","of","in","a","an","on","we","i","he","she","is","for","we","how","but","so","not","weatherwatch"]
 }

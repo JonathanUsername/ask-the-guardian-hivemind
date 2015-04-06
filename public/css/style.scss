@@ -107,25 +107,25 @@ body {
 	}
 }
 
-@media only screen and (max-height: 500px) {
-	.navbar #navbar {
-		width:100%;
-		.navopt {
-			width:33.33%;
-			display:inline;
-			vertical-align: middle;
-			& > select, button{
-				max-width:33.333%;
-				display:inline-block;
-				margin: 10px;
-			}
-		}
-		.title {
-			h1 {
-				font-size:25px;
-			}
-			padding-bottom:10px;
-		}
+// @media only screen and (max-height: 500px) {
+// 	.navbar #navbar {
+// 		width:100%;
+// 		.navopt {
+// 			width:33.33%;
+// 			display:inline;
+// 			vertical-align: middle;
+// 			& > select, button{
+// 				max-width:33.333%;
+// 				display:inline-block;
+// 				margin: 10px;
+// 			}
+// 		}
+// 		.title {
+// 			h1 {
+// 				font-size:25px;
+// 			}
+// 			padding-bottom:10px;
+// 		}
 		
-	}
-}
+// 	}
+// }
