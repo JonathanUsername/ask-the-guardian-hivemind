@@ -19,6 +19,18 @@ body {
   border-left: none;
   border-right: none;
   border-bottom: 3px solid #00456E; }
+  .navbar #section {
+    min-width: 100px;
+    max-width: 180px;
+    margin-bottom: 10px; }
+  .navbar #date {
+    min-width: 100px;
+    max-width: 150px;
+    padding-left: 15px; }
+  .navbar #date, .navbar #section {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px; }
   .navbar #navbar {
     background: #00456E; }
   .navbar .title {
@@ -47,7 +59,7 @@ body {
     .navbar .navopt.section {
       width: 66.666%; }
       .navbar .navopt.section select {
-        width: auto; }
+        max-width: 280px; }
     .navbar .navopt.search {
       vertical-align: top;
       width: 33.333%; }

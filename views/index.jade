@@ -4,11 +4,13 @@ block content
     nav.navbar.navbar-default.navbar-static
         div.container
             div.row
-                div.col-xs-10.col-sm-7.col-md-7.col-lg-8.title
+                div.col-xs-10.col-sm-7.col-md-7.col-lg-6.title
                     h1.lightblue Let's ask 
-                    h1 The Guardian hivemind
-                div#navbar.col-xs-12.col-sm-5.col-md-5.col-lg-4
-                    div.navopt.section 
+                    h1 The Guardian Hivemind
+                div#navbar.col-xs-12.col-sm-5.col-md-5.col-lg-5
+                    //- div.navopt.section
+                    //-     input(placeholder="Enter a tag")
+                    div.navopt.search
                         p Regurgitate headlines from:
                         select#section.form-control
                             option(value="news") News
@@ -19,9 +21,7 @@ block content
                             option(value="business") Economy
                             option(value="environment") Environment
                             option(value="technology") Technology
-                    //- div.navopt.section
-                    //-     input(placeholder="Enter a tag")
-                    div.navopt.search
+                        input#date.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}')
                         button.btn.btn-primary#goSearch Search
     div.canvas-holder
         canvas#cloudCanvas

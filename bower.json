@@ -11,6 +11,7 @@
     "wordcloud2.js": "*",
     "underscore": "~1.8.3",
     "bootstrap": "~3.3.4",
-    "fontawesome": "~4.3.0"
+    "fontawesome": "~4.3.0",
+    "bootstrap-datepicker": "~1.4.0"
   }
 }

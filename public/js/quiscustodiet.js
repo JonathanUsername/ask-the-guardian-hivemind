@@ -3,6 +3,7 @@ $(document).ready(function(){
 		navh = $("nav.navbar").outerHeight(),
 		canvh = screenh - navh,
 		canvas = document.getElementById('cloudCanvas');
+	$('.datepicker').datepicker()
 	$("#goSearch").click(function(){
 		var qs = "?section=" + $("#section").val()
 		$.ajax({
