@@ -9,14 +9,41 @@ body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; }
+  overflow: hidden;
+  font-family: BreeSerif; }
   body .canvas-holder {
     width: 100%;
     height: 80%;
     margin: 0; }
 
+div.articles {
+  display: none; }
+  div.articles.article-wrap {
+    position: absolute;
+    width: 100%;
+    background: rgba(255, 255, 255, 0); }
+  div.articles.article-box {
+    background: #fff;
+    overflow-y: scroll;
+    height: 80vh;
+    padding: 20px; }
+  div.articles.topbar {
+    background: #f6f6f6;
+    height: 20px;
+    height: auto;
+    padding: 5px;
+    overflow: auto;
+    border-bottom: 1px solid #4bc6df; }
+    div.articles.topbar button {
+      float: right;
+      margin: 10px; }
+  div.articles.overlay {
+    z-index: 100;
+    box-shadow: 2px 2px 10px black;
+    background: #333;
+    padding: 1px; }
+
 .navbar {
-  font-family: BreeSerif;
   background: #005689;
   color: #fff;
   border-top: none;
@@ -41,8 +68,7 @@ body {
   .navbar #navbar {
     background: #00456E; }
   .navbar .title {
-    padding: 10px;
-    padding-bottom: 40px; }
+    padding: 10px; }
   .navbar h1 {
     display: inline; }
     .navbar h1.lightblue {
@@ -53,6 +79,8 @@ body {
     padding: 10px; }
     .navbar .navopt i {
       font-size: 20px; }
+  .navbar #question {
+    max-width: 60%; }
 
 @media only screen and (max-width: 330px) {
   .navbar .navopt {

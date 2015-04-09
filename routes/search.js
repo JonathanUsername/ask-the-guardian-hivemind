@@ -21,7 +21,7 @@ db.on('error',function(err) {
 
 // CONSTANTS
 var CACHING = true;
-var CACHING_RESULTS = false;
+var CACHING_RESULTS = true;
 // Delete records after a week
 var CACHING_TTL = 604800;
 // Maximum records to request from API
@@ -38,18 +38,36 @@ router.get('/', function(req, res, next) {
 		if (CACHING){
 			checkCache(query, function(exists, cache){
 				if (exists){
-					res.send(cache.array)
+					var output = {
+						"array": cache.array
+					}
+					res.send(output)
 				} else {
-				 	guardianSearch(query, function(array){
-				 		res.send(array);
+				 	guardianSearch(query, function(output){
+				 		res.send(output);
 				 	})
 				}
 			})
 		} else {
-			guardianSearch(query, function(array){
-				res.send(array);
+			guardianSearch(query, function(data){
+				res.send(data);
 			})
 		}
+	} else {
+		res.send("No query.")
+	}
+});
+
+router.get('/articles', function(req, res, next) {
+	var query;
+	if (!(_.isEmpty(req.query))){
+		getArticles(req.query,function(exists, docs){
+			if (exists){
+				res.send(docs)
+			} else {
+				res.send("No dice.")
+			}
+		})
 	} else {
 		res.send("No query.")
 	}
@@ -106,13 +124,16 @@ function guardianSearch(query,cb){
 				    twodarr.push([word,tally[word]])
 				}
 			}
-			cb(twodarr)
+			output = {
+				"array": twodarr
+			}
+			cb(output)
 			if (CACHING){
 				query.array = twodarr
 				if (CACHING_RESULTS){
 					query.results = results
 				}
-				updateCache(query, results, function(){
+				updateCache(query, function(){
 					console.log("Finished updating cache.")
 				})
 			}
@@ -147,11 +168,37 @@ function checkCache(query, cb){
 	});
 }
 
-function updateCache(query, results, cb){
+function updateCache(query, cb){
 	DBqueries.insert(query, function() {
 	    console.log("Updated queries.")
 	    cb()
 	});
 }
+
+function getArticles(query, cb){
+	// This won't work for bodysearch
+	console.log(query)
+	DBqueries.find(query.filter, function(err, docs) {
+	    if (docs.length == 0){
+	    	"Record not in cache."
+	    	cb(false)
+	    } else { 
+	    	"Record exists in cache."
+	    	var results = docs[0].results;
+	    	var output = []
+	    	for (var i in results){
+	    		var headline = results[i].fields.headline
+	    		var re = new RegExp(query.word,"i");
+	    		console.log(headline)
+	    		if (headline.search(re) != -1){
+	    			console.log("YO", query.word,results[i].fields.headline)
+	    			output.push(results[i])
+	    		}
+	    	}
+	    	cb(true, output)
+	    }
+	});
+}
+
 
 module.exports = router;

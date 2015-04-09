@@ -8,19 +8,24 @@ $(document).ready(function(){
 	    		"section": $("#section").val(),
 	    		"to-date": $("#to-date").val()
 	    	}
-	    	$("#section").val() == "all" ? delete params.section : false
+	    	// Section cannot be left empty
+	    	$("#section").val() == "all" ? delete params.section : false;
 	    	qs = "?" + $.param(params)
 	    	$.ajax({
 	    		url:"/search" + qs
 	    	}).done(function(data){
-	    		data.forEach(function(i){
+	    		console.log(data.array)
+	    		data.array.forEach(function(i){
 	    			i[1] = i[1] * Math.max(1, windoww / 700) 
 	    		})
 	    		WordCloud(canvas, {
-	    			list: data,
+	    			list: data.array,
 	    			fontFamily: "BreeSerif",
 	    			minSize: 10,
-	    			gridSize:5 + Math.max(1, windoww / 700)
+	    			gridSize:5 + Math.max(1, windoww / 700),
+	    			click: function(item, dimension, event){
+	    				fetchArticles(item, dimension, event, params)
+	    			}
 	    		})
 	    	}).fail(function(jqXHR,textStatus,errorThrown){
 	    		console.log(jqXHR,textStatus,errorThrown)
@@ -30,6 +35,9 @@ $(document).ready(function(){
 	})
 	$("#openOptions").click(function(){
 		$(".optional").toggleClass("closed")
+	})
+	$("#closeArticles").click(function(){
+		$(".articles").hide();
 	})
 	var screenh = $("body").outerHeight(),
 		navh = $("nav.navbar").outerHeight(),
@@ -43,5 +51,34 @@ $(document).ready(function(){
 
 })
 
+
+function fetchArticles(item,dimension,event,params){
+	console.log(item,dimension,event)
+	var word = item[0], 
+		query = {};
+	query.filter = params
+	query.word = word
+	qs = "?" + $.param(query)
+	$.ajax({
+		url:"/search/articles" + qs
+	}).done(function(data){
+		displayArticles(data)
+	})
+}
+
+function displayArticles(data){
+	console.log(data)
+	var box = $(".article-box")
+	var boxbits = $(".articles")
+	boxbits.hide()
+	box.empty()
+	boxbits.show()
+	box.append("<ul>")
+	for (var i in data){
+		var result = data[i]
+		box.append("<li><a href=" + result.webUrl + ">" + result.webTitle + "</a></li>")
+	}
+	box.append("</ul>")
+}
 
 

@@ -13,6 +13,7 @@ block content
                     div.navopt.search
                         p What do you think about...
                         input#question.input-block(type="text", class="form-control", placeholder='')
+                        button.btn.btn-primary#openOptions Options
                         select#section.input-block.optional.closed.form-control
                             option(value="all") All sections
                             option(value="commentisfree") Comment is Free
@@ -24,7 +25,14 @@ block content
                             option(value="environment") Environment
                             option(value="technology") Technology
                         input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
-                        button.btn.btn-primary#openOptions Options
-                            //- i.fa-ellipsis-v.fa
+    div.article-wrap.articles  
+        div.articles.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+            div.articles.topbar.row
+                div.col-xs-10 
+                    h3 Articles
+                div.col-xs-2
+                    button.btn#closeArticles
+                        span.glyphicon.glyphicon-remove
+            div.articles.article-box.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
     div.canvas-holder
         canvas#cloudCanvas
