@@ -4,7 +4,7 @@ $(document).ready(function(){
 	    	var params, qs, question, section, date;
 	    	// Guardian API prefers URI encoding to jQuery's params default encoding.
 	    	params = {
-	    		"q": encodeURI($("#question").val().toLowerCase()),
+	    		"q": $("#question").val().toLowerCase(),
 	    		"section": $("#section").val(),
 	    		"to-date": $("#to-date").val()
 	    	}
@@ -15,18 +15,23 @@ $(document).ready(function(){
 	    		url:"/search" + qs
 	    	}).done(function(data){
 	    		console.log(data.array)
-	    		data.array.forEach(function(i){
-	    			i[1] = i[1] * Math.max(1, windoww / 700) 
-	    		})
-	    		WordCloud(canvas, {
-	    			list: data.array,
-	    			fontFamily: "BreeSerif",
-	    			minSize: 10,
-	    			gridSize:5 + Math.max(1, windoww / 700),
-	    			click: function(item, dimension, event){
-	    				fetchArticles(item, dimension, event, params)
-	    			}
-	    		})
+	    		if (data.array.length == 0){
+	    			alert("No results!")
+	    		} else {
+	    			// Resize words according to window width
+		    		data.array.forEach(function(i){
+		    			i[1] = i[1] * Math.max(1, windoww / 700) 
+		    		})
+		    		WordCloud(canvas, {
+		    			list: data.array,
+		    			fontFamily: "BreeSerif",
+		    			minSize: 10,
+		    			gridSize:5 + Math.max(1, windoww / 700),
+		    			click: function(item, dimension, event){
+		    				fetchArticles(item, dimension, event, params)
+		    			}
+		    		})
+		    	}
 	    	}).fail(function(jqXHR,textStatus,errorThrown){
 	    		console.log(jqXHR,textStatus,errorThrown)
 	    		alert(textStatus,errorThrown,"Error connecting to server")
@@ -76,7 +81,8 @@ function displayArticles(data){
 	box.append("<ul>")
 	for (var i in data){
 		var result = data[i]
-		box.append("<li><a href=" + result.webUrl + ">" + result.webTitle + "</a></li>")
+		var date = new Date(result.webPublicationDate)
+		box.append("<div class='result'><p>" + date.toLocaleString() + "</p><a href=" + result.webUrl + ">" + result.webTitle + "</a></div>")
 	}
 	box.append("</ul>")
 }

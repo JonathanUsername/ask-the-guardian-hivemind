@@ -157,7 +157,8 @@ function guardianSearch(query,cb){
 	// });
 
 function checkCache(query, cb){
-	DBqueries.find({ "q" : query["q"] }, function(err, docs) {
+	console.log("JIMBO", query)
+	DBqueries.find(query, function(err, docs) {
 	    if (docs.length == 0){
 	    	"Record not in cache."
 	    	cb(false)
@@ -180,18 +181,18 @@ function getArticles(query, cb){
 	console.log(query)
 	DBqueries.find(query.filter, function(err, docs) {
 	    if (docs.length == 0){
-	    	"Record not in cache."
+	    	console.log("Record not in cache.")
 	    	cb(false)
 	    } else { 
-	    	"Record exists in cache."
+	    	console.log("Record exists in cache.")
 	    	var results = docs[0].results;
+    		console.log(query.filter)
 	    	var output = []
 	    	for (var i in results){
 	    		var headline = results[i].fields.headline
 	    		var re = new RegExp(query.word,"i");
 	    		console.log(headline)
 	    		if (headline.search(re) != -1){
-	    			console.log("YO", query.word,results[i].fields.headline)
 	    			output.push(results[i])
 	    		}
 	    	}
