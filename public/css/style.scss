@@ -184,9 +184,12 @@ div.articles {
 	}
 }
 
-.info {
+.mini-buttons {
 	position:absolute;
 	top:0;
+	&.share {
+		top:20px;
+	}
 	right:0;
 	color:#A8D8F2;
 	padding:0 5px;
@@ -194,7 +197,7 @@ div.articles {
 	font-size:15px;
 }
 
-.info-box {
+.info-box, .share-box {
 	display:none;
 	.article-box {
 		height:auto;

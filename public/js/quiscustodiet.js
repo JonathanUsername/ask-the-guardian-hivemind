@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$('#question').keyup(function(e){
 	    if(e.keyCode == 13){
-	    	searchIt()
+	    	searchIt(getParams())
 	    }
 	})
 	$("#openOptions").click(function(){
@@ -20,8 +20,14 @@ $(document).ready(function(){
 	$("#closeInfo").click(function(){
 		$(".info-box").hide();
 	})
+	$("#openShare").click(function(){
+		$(".share-box").show();
+	})
+	$("#closeShare").click(function(){
+		$(".share-box").hide();
+	})
 	$("#search").click(function(){
-		searchIt()
+		searchIt(getParams())
 	})
 	var screenh = $("body").outerHeight(),
 		navh = $("nav.navbar").outerHeight(),
@@ -33,14 +39,11 @@ $(document).ready(function(){
 	canvas.height = canvh
 	canvas.width = window.innerWidth
 
-	function searchIt(){
-		var params, qs, question, section, date;
-		// Guardian API prefers URI encoding to jQuery's params default encoding.
-		params = {
-			"q": '"' + $("#question").val().toLowerCase() + '"',
-			"section": $("#section").val(),
-			"to-date": $("#to-date").val()
-		}
+	function searchIt(params){
+		var qs, question, section, date;
+		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
+		window.location.hash = params_for_sharing
+		$("div.fb-share-button").attr("data-href", window.location.href)
 		// Section cannot be left empty
 		$("#section").val() == "all" ? delete params.section : false;
 		qs = "?" + $.param(params)
@@ -69,6 +72,23 @@ $(document).ready(function(){
 			console.log(jqXHR,textStatus,errorThrown)
 			alert(textStatus,errorThrown,"Error connecting to server")
 		})
+	}
+
+	if (window.location.hash.length > 0){
+		try {
+			var url_query = decodeURIComponent(window.location.hash).replace(/^#/, "")
+			var objectified = JSON.parse(url_query)
+			if (typeof(objectified) === "object"){
+				console.log(objectified, url_query)
+				searchIt(objectified)
+			} else {
+				console.log("Hash is not a valid object.")
+				window.location.hash = ""
+			}
+		} catch(e) {
+			console.log("Oops. That's not a valid hash.")
+			window.location.hash = ""
+		}
 	}
 
 })
@@ -105,3 +125,13 @@ function displayArticles(data){
 }
 
 
+function getParams(){
+	params = {
+		"q": '"' + $("#question").val().toLowerCase() + '"',
+		"section": $("#section").val(),
+		"to-date": $("#to-date").val()
+	}
+	$("#section").val() == "all" ? delete params.section : false;
+	console.log(params)
+	return params
+}

@@ -61,7 +61,8 @@ router.get('/', function(req, res, next) {
 router.get('/articles', function(req, res, next) {
 	var query;
 	if (!(_.isEmpty(req.query))){
-		getArticles(req.query,function(exists, docs){
+		query = decodeURIComponent(req.query)
+		getArticles(query,function(exists, docs){
 			if (exists){
 				res.send(docs)
 			} else {
@@ -160,13 +161,12 @@ function guardianSearch(query,cb){
 	// });
 
 function checkCache(query, cb){
-	console.log("JIMBO", query)
 	DBqueries.find(query, function(err, docs) {
 	    if (docs.length == 0){
-	    	"Record not in cache."
+	    	console.log("Record not in cache.")
 	    	cb(false)
 	    } else { 
-	    	"Record exists in cache."
+	    	console.log("Record exists in cache.")
 	    	cb(true, docs[0])
 	    }
 	});

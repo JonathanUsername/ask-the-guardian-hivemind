@@ -129,7 +129,7 @@ div.articles {
     margin-right: 35px;
     display: block; } }
 
-.info {
+.mini-buttons {
   position: absolute;
   top: 0;
   right: 0;
@@ -137,8 +137,10 @@ div.articles {
   padding: 0 5px;
   cursor: pointer;
   font-size: 15px; }
+  .mini-buttons.share {
+    top: 20px; }
 
-.info-box {
+.info-box, .share-box {
   display: none; }
-  .info-box .article-box {
+  .info-box .article-box, .share-box .article-box {
     height: auto; }

@@ -1,6 +1,9 @@
 extends layout
 
 block content
+    script SHARING=#{sharing}
+    div#fb-root
+    script (function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=926380780728549";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'))
     nav.navbar.navbar-default.navbar-static
         div.container
             div.row
@@ -48,7 +51,22 @@ block content
                             span.glyphicon.glyphicon-remove
                 div.article-box This pointless web app was designed and built by me, Jon King, with the help of a few well-known libraries. It's basically a simple Express app built with NodeJS, cached with MongoDB, parsing requests to the Guardian's API and feeding them back to you to be sprayed onto your screens and end up as a little puddle of psychedelic journalism. You can see all the intimate details here -
                     a(href="https://github.com/JonathanUsername/ask-the-guardian-hivemind")  on the Github page
+    div.share-box
+        div.article-wrap
+            div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+                div.topbar
+                    div.col-xs-10
+                         h3 Sharing
+                    div.col-xs-2
+                        button.btn#closeShare
+                            span.glyphicon.glyphicon-remove
+                div.article-box
+                    div.sharing Share on Facebook?
+                        p
+                            div.fb-share-button(data-href="https://developers.facebook.com/docs/plugins/", data-layout="icon_link")
     div.canvas-holder
         canvas#cloudCanvas
-    div.info#openInfo
+    div.mini-buttons.info#openInfo
         i.fa.fa-info-circle
+    div.mini-buttons.share#openShare
+        i.fa.fa-share-alt
