@@ -82,7 +82,7 @@ function displayArticles(data){
 	for (var i in data){
 		var result = data[i]
 		var date = new Date(result.webPublicationDate)
-		box.append("<div class='result'><p>" + date.toLocaleString() + "</p><a href=" + result.webUrl + ">" + result.webTitle + "</a></div>")
+		box.append("<div class='result'><p>" + date.toLocaleString() + " - " + result.sectionName + "</p><a href=" + result.webUrl + ">" + result.webTitle + "</a></div>")
 	}
 	box.append("</ul>")
 }

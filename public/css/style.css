@@ -110,4 +110,6 @@ div.articles {
   .navbar .title {
     padding-bottom: 10px; }
     .navbar .title h1 {
-      font-size: 25px; } }
+      font-size: 25px; }
+  .articles.article-wrap {
+    top: 20px; } }
