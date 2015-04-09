@@ -1,41 +1,7 @@
 $(document).ready(function(){
 	$('#question').keyup(function(e){
 	    if(e.keyCode == 13){
-	    	var params, qs, question, section, date;
-	    	// Guardian API prefers URI encoding to jQuery's params default encoding.
-	    	params = {
-	    		"q": '"' + $("#question").val().toLowerCase() + '"',
-	    		"section": $("#section").val(),
-	    		"to-date": $("#to-date").val()
-	    	}
-	    	// Section cannot be left empty
-	    	$("#section").val() == "all" ? delete params.section : false;
-	    	qs = "?" + $.param(params)
-	    	$.ajax({
-	    		url:"/search" + qs
-	    	}).done(function(data){
-	    		console.log(data.array)
-	    		if (data.array.length == 0){
-	    			alert("No results!")
-	    		} else {
-	    			// Resize words according to window width
-		    		data.array.forEach(function(i){
-		    			i[1] = i[1] * Math.max(1, windoww / 700) 
-		    		})
-		    		WordCloud(canvas, {
-		    			list: data.array,
-		    			fontFamily: "BreeSerif",
-		    			minSize: 10,
-		    			gridSize:5 + Math.max(1, windoww / 700),
-		    			click: function(item, dimension, event){
-		    				fetchArticles(item, dimension, event, params)
-		    			}
-		    		})
-		    	}
-	    	}).fail(function(jqXHR,textStatus,errorThrown){
-	    		console.log(jqXHR,textStatus,errorThrown)
-	    		alert(textStatus,errorThrown,"Error connecting to server")
-	    	})
+	    	searchIt()
 	    }
 	})
 	$("#openOptions").click(function(){
@@ -54,6 +20,9 @@ $(document).ready(function(){
 	$("#closeInfo").click(function(){
 		$(".info-box").hide();
 	})
+	$("#search").click(function(){
+		searchIt()
+	})
 	var screenh = $("body").outerHeight(),
 		navh = $("nav.navbar").outerHeight(),
 		canvh = screenh - navh,
@@ -63,6 +32,44 @@ $(document).ready(function(){
 
 	canvas.height = canvh
 	canvas.width = window.innerWidth
+
+	function searchIt(){
+		var params, qs, question, section, date;
+		// Guardian API prefers URI encoding to jQuery's params default encoding.
+		params = {
+			"q": '"' + $("#question").val().toLowerCase() + '"',
+			"section": $("#section").val(),
+			"to-date": $("#to-date").val()
+		}
+		// Section cannot be left empty
+		$("#section").val() == "all" ? delete params.section : false;
+		qs = "?" + $.param(params)
+		$.ajax({
+			url:"/search" + qs
+		}).done(function(data){
+			console.log(data.array)
+			if (data.array.length == 0){
+				alert("No results!")
+			} else {
+				// Resize words according to window width
+	    		data.array.forEach(function(i){
+	    			i[1] = i[1] * Math.max(1, windoww / 700) 
+	    		})
+	    		WordCloud(canvas, {
+	    			list: data.array,
+	    			fontFamily: "BreeSerif",
+	    			minSize: 10,
+	    			gridSize:5 + Math.max(1, windoww / 700),
+	    			click: function(item, dimension, event){
+	    				fetchArticles(item, dimension, event, params)
+	    			}
+	    		})
+	    	}
+		}).fail(function(jqXHR,textStatus,errorThrown){
+			console.log(jqXHR,textStatus,errorThrown)
+			alert(textStatus,errorThrown,"Error connecting to server")
+		})
+	}
 
 })
 
