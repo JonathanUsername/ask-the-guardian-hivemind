@@ -83,7 +83,7 @@ function fetchArticles(item,dimension,event,params){
 
 function displayArticles(data){
 	console.log(data)
-	var box = $(".article-box")
+	var box = $(".articles.article-box")
 	var boxbits = $(".articles")
 	boxbits.hide()
 	box.empty()
