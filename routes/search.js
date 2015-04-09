@@ -6,23 +6,6 @@ var _ = require ('underscore')
 var apikey = require ('../keys.private.json')
 var config = require('../config.json')
 
-var data = {
-            "webTitle": "From laughs to stats: the fresh digital approach to election coverage",
-            "webPublicationDate": "2015-04-05T17:04:00Z",
-            "sectionId": "media",
-            "id": "media/2015/apr/05/engage-electorate-online-audiences",
-            "webUrl": "http://www.theguardian.com/media/2015/apr/05/engage-electorate-online-audiences",
-            "apiUrl": "http://content.guardianapis.com/media/2015/apr/05/engage-electorate-online-audiences",
-            "sectionName": "Media"
-        }
-
-
-var BODYSEARCH = false;
-var CACHING = true;
-var CACHING_RESULTS = false;
-// delete records after a week
-var CACHING_TTL = 604800;
-
 // DATABASE
 // db name : guardian
 // collections : queries
@@ -35,6 +18,16 @@ var DBcaching = db.collection('caching');
 db.on('error',function(err) {
     console.log('database error', err);
 });
+
+// CONSTANTS
+var CACHING = true;
+var CACHING_RESULTS = false;
+// Delete records after a week
+var CACHING_TTL = 604800;
+// Maximum records to request from API
+var PAGE_SIZE = 200
+// search in the body, not just the headlines
+var BODYSEARCH = false;
 
 
 router.get('/', function(req, res, next) {
@@ -63,13 +56,16 @@ router.get('/', function(req, res, next) {
 });
 
 function guardianSearch(query,cb){
-	var url;
+	var url, questions;
 	query["api-key"] = apikey.key
 	query["show-fields"] = "headline"
 	if (BODYSEARCH){
 		query["show-fields"] = "body,headline"
 	}
-	query["page-size"] = 200
+	console.log(query["q"])
+	// decodeURI to replace %20 with a space.
+	questions = decodeURIComponent(query["q"]).split(" ")
+	query["page-size"] = PAGE_SIZE
 	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
 	console.log(url)
 	request(url, function(err,res,bod){
@@ -78,24 +74,29 @@ function guardianSearch(query,cb){
 		} else {
 			var data = JSON.parse(bod);
 			var results = data.response.results;
-			console.log(data.response)
 			var tally = {} 
 			var twodarr = [] 
 			for (var i in results){
 				var fields = results[i].fields
 				for (var i in fields){
+					// To catch searching through body and headlines
 					var text = fields[i]
 				    var arr = text.split(' ')
 				    for (var ind in arr){
+				        // Discard possessives, numbers and uppercase.
 				        var word = arr[ind];
 				        word = word.replace(/'s/g, '')
 				        word = word.replace(/’s/g, '')
 				        word = word.replace(/([^a-z]+)/gi, '')
 				        word = word.toLowerCase()
-				        if (tally[word]){
-				            tally[word] += config.stepSize
-				        } else {
-				            tally[word] = config.minSize
+				        // If it's not one of the questions.
+				        if (questions.indexOf(word) == -1){
+				        	// Increment the tally.
+					        if (tally[word]){
+					            tally[word] += config.stepSize
+					        } else {
+					            tally[word] = config.minSize
+					        }
 				        }
 				    }
 				}

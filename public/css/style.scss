@@ -12,6 +12,11 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  .canvas-holder{
+  	width:100%;
+  	height: 80%;
+  	margin: 0;
+  }
 }
 
 .navbar {
@@ -22,6 +27,7 @@ body {
 	border-left: none;
 	border-right: none;
 	border-bottom: 3px solid #00456E;
+	margin-bottom:5px;
 	#section {
 		min-width: 100px;
 		max-width: 180px;
@@ -61,11 +67,6 @@ body {
 			font-size:20px
 		}
 	}
-}
-
-.canvas-holder{
-	width:100vw;
-	height: 100vh;
 }
 
 @media only screen and (max-width: 330px) {

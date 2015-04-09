@@ -8,6 +8,7 @@ $(document).ready(function(){
 	    		"section": $("#section").val(),
 	    		"to-date": $("#to-date").val()
 	    	}
+	    	$("#section").val() == "all" ? delete params.section : false
 	    	qs = "?" + $.param(params)
 	    	$.ajax({
 	    		url:"/search" + qs
