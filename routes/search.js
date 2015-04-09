@@ -83,6 +83,9 @@ function guardianSearch(query,cb){
 	console.log(query["q"])
 	// decodeURI to replace %20 with a space.
 	questions = decodeURIComponent(query["q"]).split(" ")
+	for (var i in questions){
+		questions[i] = questions[i].replace(/([^a-z]+)/gi, '')
+	}
 	query["page-size"] = PAGE_SIZE
 	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
 	console.log(url)

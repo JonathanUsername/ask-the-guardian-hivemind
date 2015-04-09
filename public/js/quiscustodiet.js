@@ -4,7 +4,7 @@ $(document).ready(function(){
 	    	var params, qs, question, section, date;
 	    	// Guardian API prefers URI encoding to jQuery's params default encoding.
 	    	params = {
-	    		"q": $("#question").val().toLowerCase(),
+	    		"q": '"' + $("#question").val().toLowerCase() + '"',
 	    		"section": $("#section").val(),
 	    		"to-date": $("#to-date").val()
 	    	}
@@ -39,10 +39,20 @@ $(document).ready(function(){
 	    }
 	})
 	$("#openOptions").click(function(){
+		icon = $("i.fa", this)
+		icon.toggleClass("fa-angle-down")
+		icon.toggleClass("fa-angle-up")
 		$(".optional").toggleClass("closed")
+
 	})
 	$("#closeArticles").click(function(){
 		$(".articles").hide();
+	})
+	$("#openInfo").click(function(){
+		$(".info-box").show();
+	})
+	$("#closeInfo").click(function(){
+		$(".info-box").hide();
 	})
 	var screenh = $("body").outerHeight(),
 		navh = $("nav.navbar").outerHeight(),

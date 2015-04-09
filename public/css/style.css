@@ -18,35 +18,39 @@ body {
 
 div.articles {
   display: none; }
-  div.articles.article-wrap {
-    position: absolute;
-    width: 100%;
-    background: rgba(255, 255, 255, 0); }
-  div.articles.article-box {
-    background: rgba(255, 255, 255, 0.9);
-    overflow-y: scroll;
-    height: 80vh;
-    padding: 20px; }
-    div.articles.article-box .result {
-      padding: 10px;
-      background: #fff;
-      margin: 15px; }
-  div.articles.topbar {
-    background: #f6f6f6;
-    height: 20px;
-    height: auto;
-    padding: 5px;
-    overflow: auto;
-    margin: 0;
-    border-bottom: 1px solid #4bc6df; }
-    div.articles.topbar button {
-      float: right;
-      margin: 10px; }
-  div.articles.overlay {
-    z-index: 100;
-    box-shadow: 2px 4px 10px #888;
-    padding: 0;
-    border: 1px solid #ccc; }
+
+.article-wrap {
+  position: absolute;
+  width: 100%;
+  background: rgba(255, 255, 255, 0); }
+
+.article-box {
+  background: rgba(255, 255, 255, 0.9);
+  overflow-y: scroll;
+  height: 80vh;
+  padding: 20px; }
+  .article-box .result {
+    padding: 10px;
+    background: #fff;
+    margin: 15px; }
+
+.topbar {
+  background: #f6f6f6;
+  height: 20px;
+  height: auto;
+  padding: 5px;
+  overflow: auto;
+  margin: 0;
+  border-bottom: 1px solid #4bc6df; }
+  .topbar button {
+    float: right;
+    margin: 10px; }
+
+.overlay {
+  z-index: 100;
+  box-shadow: 2px 4px 10px #888;
+  padding: 0;
+  border: 1px solid #ccc; }
 
 .navbar {
   background: #005689;
@@ -66,7 +70,7 @@ div.articles {
   .navbar .input-block {
     display: inline-block;
     vertical-align: top;
-    margin-right: 10px;
+    margin-right: 3px;
     margin-bottom: 10px; }
     .navbar .input-block.optional.closed {
       display: none; }
@@ -76,14 +80,19 @@ div.articles {
     padding: 10px; }
   .navbar h1 {
     display: inline; }
-    .navbar h1.lightblue {
-      color: #A8D8F2; }
+  .navbar .lightblue {
+    color: #A8D8F2; }
+  .navbar p.subheader {
+    display: none; }
   .navbar .navopt {
     display: block;
     width: 100%;
     padding: 10px; }
     .navbar .navopt i {
       font-size: 20px; }
+    .navbar .navopt button {
+      height: 34px;
+      margin: 0 2px; }
   .navbar #question {
     max-width: 60%; }
 
@@ -113,3 +122,23 @@ div.articles {
       font-size: 25px; }
   .articles.article-wrap {
     top: 20px; } }
+
+@media only screen and (min-width: 1000px) {
+  .navbar p.subheader {
+    float: right;
+    margin-right: 35px;
+    display: block; } }
+
+.info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #A8D8F2;
+  padding: 0 5px;
+  cursor: pointer;
+  font-size: 15px; }
+
+.info-box {
+  display: none; }
+  .info-box .article-box {
+    height: auto; }

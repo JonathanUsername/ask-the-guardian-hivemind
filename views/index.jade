@@ -7,13 +7,16 @@ block content
                 div.col-xs-10.col-sm-7.col-md-7.col-lg-6.title
                     h1.lightblue Let's ask 
                     h1 The Guardian Hivemind
+                    p.subheader.lightblue Left-wing headline soup. Freshly regurgitated.
                 div#navbar.col-xs-12.col-sm-5.col-md-5.col-lg-5
                     //- div.navopt.section
                     //-     input(placeholder="Enter a tag")
                     div.navopt.search
                         p What do you think about...
                         input#question.input-block(type="text", class="form-control", placeholder='')
-                        button.btn.btn-primary#openOptions Options
+                        button.btn.btn-primary#search Ask
+                        button.btn.btn-primary#openOptions
+                            i.fa.fa-angle-down
                         select#section.input-block.optional.closed.form-control
                             option(value="all") All sections
                             option(value="commentisfree") Comment is Free
@@ -34,5 +37,18 @@ block content
                     button.btn#closeArticles
                         span.glyphicon.glyphicon-remove
             div.articles.article-box
+    div.info-box
+        div.article-wrap
+            div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
+                div.topbar
+                    div.col-xs-10
+                         h3 Info
+                    div.col-xs-2
+                        button.btn#closeInfo
+                            span.glyphicon.glyphicon-remove
+                div.article-box Designed and built by me, Jon King, with the help of a few well-known libraries. It's basically a simple Express app built with Node, cached with Mongo, parsing requests to the Guardian's API and feeding them back to you to be sprayed onto your screens and end up as a little puddle of psychedelic journalism. You can see all the intimate details here -
+                    a(href="https://github.com/JonathanUsername/ask-the-guardian-hivemind")  on the Github page
     div.canvas-holder
         canvas#cloudCanvas
+    div.info#openInfo
+        i.fa.fa-info-circle
