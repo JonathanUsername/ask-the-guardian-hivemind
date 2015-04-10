@@ -43,7 +43,8 @@ $(document).ready(function(){
 		var qs, question, section, date;
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
-		$("div.fb-share-button").attr("data-href", window.location.href)
+		$(".fb-like").attr("data-href", window.location.href)
+		$("a.share-url").attr("href", window.location.href).text(window.location.href)
 		// Section cannot be left empty
 		$("#section").val() == "all" ? delete params.section : false;
 		qs = "?" + $.param(params)
@@ -74,6 +75,7 @@ $(document).ready(function(){
 		})
 	}
 
+	// Get search query from hash.
 	if (window.location.hash.length > 0){
 		try {
 			var url_query = decodeURIComponent(window.location.hash).replace(/^#/, "")
@@ -97,10 +99,13 @@ $(document).ready(function(){
 function fetchArticles(item,dimension,event,params){
 	console.log(item,dimension,event)
 	var word = item[0], 
-		query = {};
+		query = {},
+		qs;
+	console.log(params)
 	query.filter = params
 	query.word = word
 	qs = "?" + $.param(query)
+	console.log(qs)
 	$.ajax({
 		url:"/search/articles" + qs
 	}).done(function(data){

@@ -144,3 +144,5 @@ div.articles {
   display: none; }
   .info-box .article-box, .share-box .article-box {
     height: auto; }
+  .info-box .share-box, .share-box .share-box {
+    min-height: 300px; }

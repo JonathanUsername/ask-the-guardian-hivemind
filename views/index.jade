@@ -3,7 +3,7 @@ extends layout
 block content
     script SHARING=#{sharing}
     div#fb-root
-    script (function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=926380780728549";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'))
+    script (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=926380780728549";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
     nav.navbar.navbar-default.navbar-static
         div.container
             div.row
@@ -61,9 +61,13 @@ block content
                         button.btn#closeShare
                             span.glyphicon.glyphicon-remove
                 div.article-box
-                    div.sharing Share on Facebook?
+                    div.sharing 
+                        p Share on Facebook:
+                            div(class="fb-like" data-href="https://www.theguardianhivemind.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true")
+                        p Or you can share the URL:
                         p
-                            div.fb-share-button(data-href="https://developers.facebook.com/docs/plugins/", data-layout="icon_link")
+                            a.share-url(href="")
+                        p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
     div.canvas-holder
         canvas#cloudCanvas
     div.mini-buttons.info#openInfo

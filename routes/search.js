@@ -61,8 +61,7 @@ router.get('/', function(req, res, next) {
 router.get('/articles', function(req, res, next) {
 	var query;
 	if (!(_.isEmpty(req.query))){
-		query = decodeURIComponent(req.query)
-		getArticles(query,function(exists, docs){
+		getArticles(req.query,function(exists, docs){
 			if (exists){
 				res.send(docs)
 			} else {
@@ -145,21 +144,6 @@ function guardianSearch(query,cb){
 	})
 }
 
-	// DBqueries.find(function(err, docs) {
-	//     if (docs.length == 0){
-	//     	DBqueries.insert(data)
-	//     } else { 
-	//     	var id = docs[0]._id
-	//     	DBqueries.findAndModify({
-	//     	    query: {_id : id},
-	//     	    update: { $set: { sectionName:'IncreMENTAL' } },
-	//     	    new: true
-	//     	}, function(err, doc, lastErrorObject) {
-	//     	    console.log(doc)
-	//     	});
-	//     }
-	// });
-
 function checkCache(query, cb){
 	DBqueries.find(query, function(err, docs) {
 	    if (docs.length == 0){
@@ -181,7 +165,6 @@ function updateCache(query, cb){
 
 function getArticles(query, cb){
 	// This won't work for bodysearch
-	console.log(query)
 	DBqueries.find(query.filter, function(err, docs) {
 	    if (docs.length == 0){
 	    	console.log("Record not in cache.")
@@ -194,7 +177,7 @@ function getArticles(query, cb){
 	    	for (var i in results){
 	    		var headline = results[i].fields.headline
 	    		var re = new RegExp(query.word,"i");
-	    		console.log(headline)
+	    		// console.log(headline)
 	    		if (headline.search(re) != -1){
 	    			output.push(results[i])
 	    		}
