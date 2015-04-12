@@ -66,20 +66,6 @@ $(document).ready(function(){
 		})
 	}
 
-	function fetchTotals(){
-		$.ajax({
-			url:"/search/totals"
-		}).done(function(data){
-			var arr = data.array
-			displayCloud(arr, function(item,dimension,event,params){
-				// return count
-				for (var i in arr){
-					arr[i][0] == item[0] ? alert("Query: "+item[0]+"\nFont size: "+arr[i][1]) : false
-				}
-			}, {})
-		})
-	}
-
 	function displayArticles(data){
 		var box = $(".articles.article-box")
 		var boxbits = $(".articles")
@@ -95,15 +81,18 @@ $(document).ready(function(){
 		box.append("</ul>")
 	}
 
-
-	function getParams(){
-		params = {
-			"q": '"' + $("#question").val().toLowerCase() + '"',
-			"section": $("#section").val(),
-			"to-date": $("#to-date").val()
-		}
-		$("#section").val() == "all" ? delete params.section : false;
-		return params
+	function fetchTotals(){
+		$.ajax({
+			url:"/search/totals"
+		}).done(function(data){
+			var arr = data.array
+			displayCloud(arr, function(item,dimension,event,params){
+				// return count
+				for (var i in arr){
+					arr[i][0] == item[0] ? alert("Query: "+item[0]+"\nFont size: "+arr[i][1]) : false
+				}
+			}, {})
+		})
 	}
 
 	function checkHash(hash){
@@ -124,6 +113,16 @@ $(document).ready(function(){
 				window.location.hash = ""
 			}
 		}
+	}
+
+	function getParams(){
+		params = {
+			"q": '"' + $("#question").val().toLowerCase() + '"',
+			"section": $("#section").val(),
+			"to-date": $("#to-date").val()
+		}
+		$("#section").val() == "all" ? delete params.section : false;
+		return params
 	}
 
 	function searchIt(params){
