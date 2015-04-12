@@ -30,6 +30,9 @@ $(document).ready(function(){
 	$("#search").click(function(){
 		searchIt(getParams())
 	})
+	$("#totals").click(function(){
+		fetchTotals()
+	})
 	$('.datepicker').datepicker()
 
 	// Context
@@ -50,15 +53,12 @@ $(document).ready(function(){
 	// Functions --------------------------------------------------------------------
 
 	function fetchArticles(item,dimension,event,params){
-		console.log(item,dimension,event)
 		var word = item[0], 
 			query = {},
 			qs;
-		console.log(params)
 		query.filter = params
 		query.word = word
 		qs = "?" + $.param(query)
-		console.log(qs)
 		$.ajax({
 			url:"/search/articles" + qs
 		}).done(function(data){
@@ -66,8 +66,21 @@ $(document).ready(function(){
 		})
 	}
 
+	function fetchTotals(){
+		$.ajax({
+			url:"/search/totals"
+		}).done(function(data){
+			var arr = data.array
+			displayCloud(arr, function(item,dimension,event,params){
+				// return count
+				for (var i in arr){
+					arr[i][0] == item[0] ? alert("Query: "+item[0]+"\nFont size: "+arr[i][1]) : false
+				}
+			}, {})
+		})
+	}
+
 	function displayArticles(data){
-		console.log(data)
 		var box = $(".articles.article-box")
 		var boxbits = $(".articles")
 		boxbits.hide()
@@ -90,7 +103,6 @@ $(document).ready(function(){
 			"to-date": $("#to-date").val()
 		}
 		$("#section").val() == "all" ? delete params.section : false;
-		console.log(params)
 		return params
 	}
 
@@ -100,7 +112,6 @@ $(document).ready(function(){
 				var url_query = decodeURIComponent(hash).replace(/^#/, "")
 				var objectified = JSON.parse(url_query)
 				if (typeof(objectified) === "object"){
-					console.log(objectified, url_query)
 					var question = objectified["q"].replace(/"/g,'')
 					$('#question').val(question)
 					searchIt(objectified)
@@ -127,27 +138,30 @@ $(document).ready(function(){
 		$.ajax({
 			url:"/search" + qs
 		}).done(function(data){
-			console.log(data.array)
 			if (data.array.length == 0){
 				alert("No results!")
 			} else {
-				// Resize words according to window width
-	    		data.array.forEach(function(i){
-	    			i[1] = i[1] * Math.max(1, windoww / 700) 
-	    		})
-	    		WordCloud(canvas, {
-	    			list: data.array,
-	    			fontFamily: "BreeSerif",
-	    			minSize: 10,
-	    			gridSize:5 + Math.max(1, windoww / 700),
-	    			click: function(item, dimension, event){
-	    				fetchArticles(item, dimension, event, params)
-	    			}
-	    		})
+				displayCloud(data.array, fetchArticles, params)
 	    	}
 		}).fail(function(jqXHR,textStatus,errorThrown){
 			console.log(jqXHR,textStatus,errorThrown)
 			alert(textStatus,errorThrown,"Error connecting to server")
+		})
+	}
+
+	function displayCloud(array, clickHandle, params){
+		// Resize words according to window width
+		array.forEach(function(i){
+			i[1] = i[1] * Math.max(1, windoww / 700) 
+		})
+		WordCloud(canvas, {
+			list: array,
+			fontFamily: "BreeSerif",
+			minSize: 10,
+			gridSize:5 + Math.max(1, windoww / 700),
+			click: function(item,dimension,event){
+				clickHandle(item,dimension,event,params)
+			}
 		})
 	}
 

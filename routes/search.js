@@ -6,9 +6,10 @@ var _ = require ('underscore')
 var apikey = require ('../keys.private.json')
 var config = require('../config.json')
 
-// DATABASE
+// DATABASE ---------------------------------------------------
 // db name : guardian
 // collections : queries
+
 var mongojs = require('mongojs');
 var db = mongojs('guardian');
 var DBqueries = db.collection('queries');
@@ -19,7 +20,8 @@ db.on('error',function(err) {
     console.log('database error', err);
 });
 
-// CONSTANTS
+// CONSTANTS --------------------------------------------------
+
 var CACHING = true;
 var CACHING_RESULTS = true;
 // Delete records after a week
@@ -29,6 +31,7 @@ var PAGE_SIZE = 200
 // search in the body, not just the headlines
 var BODYSEARCH = false;
 
+// ROUTES -----------------------------------------------------
 
 router.get('/', function(req, res, next) {
 	var query;
@@ -73,76 +76,17 @@ router.get('/articles', function(req, res, next) {
 	}
 });
 
-function guardianSearch(query,cb){
-	var url, questions;
-	query["api-key"] = apikey.key
-	query["show-fields"] = "headline"
-	if (BODYSEARCH){
-		query["show-fields"] = "body,headline"
-	}
-	console.log(query["q"])
-	// decodeURI to replace %20 with a space.
-	questions = decodeURIComponent(query["q"]).split(" ")
-	for (var i in questions){
-		questions[i] = questions[i].replace(/([^a-z]+)/gi, '')
-	}
-	query["page-size"] = PAGE_SIZE
-	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
-	console.log(url)
-	request(url, function(err,res,bod){
-		if (err){
-			return err
-		} else {
-			var data = JSON.parse(bod);
-			var results = data.response.results;
-			var tally = {} 
-			var twodarr = [] 
-			for (var i in results){
-				var fields = results[i].fields
-				for (var i in fields){
-					// To catch searching through body and headlines
-					var text = fields[i]
-				    var arr = text.split(' ')
-				    for (var ind in arr){
-				        // Discard possessives, numbers and uppercase.
-				        var word = arr[ind];
-				        word = word.replace(/'s/g, '')
-				        word = word.replace(/’s/g, '')
-				        word = word.replace(/([^a-z]+)/gi, '')
-				        word = word.toLowerCase()
-				        // If it's not one of the questions.
-				        if (questions.indexOf(word) == -1){
-				        	// Increment the tally.
-					        if (tally[word]){
-					            tally[word] += config.stepSize
-					        } else {
-					            tally[word] = config.minSize
-					        }
-				        }
-				    }
-				}
-			}
-			for (var word in tally){
-				if (config.filter.indexOf(word) == -1 && word.length > 1){
-				    twodarr.push([word,tally[word]])
-				}
-			}
-			output = {
-				"array": twodarr
-			}
-			cb(output)
-			if (CACHING){
-				query.array = twodarr
-				if (CACHING_RESULTS){
-					query.results = results
-				}
-				updateCache(query, function(){
-					console.log("Finished updating cache.")
-				})
-			}
+router.get('/totals', function(req, res, next) {
+	console.log(req.query)
+	getTotals(req.query,function(array){
+		var output = {
+			"array": array
 		}
+		res.send(output)
 	})
-}
+});
+
+// CACHE --------------------------------------------------
 
 function checkCache(query, cb){
 	DBqueries.find(query, function(err, docs) {
@@ -163,6 +107,54 @@ function updateCache(query, cb){
 	});
 }
 
+// TOTALS --------------------------------------------------
+
+function getTotals(query, cb){
+	console.log("getting totals")
+	// var filter = {
+	//     "key": {
+	//         "q": true
+	//     },
+	//     "initial": {
+	//         "countq": 0
+	//     },
+	//     "reduce": function(obj, prev) {
+	//         if (obj.q != null) if (obj.q instanceof Array) prev.countq += obj.q.length;
+	//         else prev.countq++;
+	//     }
+	// }
+	var filter = {
+	    "key": {
+	        "q": true
+	    },
+	    "initial": {
+	        "count": 0
+	    },
+	    "reduce": function(cur, result) {
+	        if (cur.q != null){
+				result.count++
+	        }
+	    }
+	};
+	DBqueries.group(filter, function(err,arr){
+		console.log("got totals ",arr);
+		var twodarr = [];
+		for (var i in arr){
+			console.log(arr[i])
+			var word = arr[i].q,
+				count =  arr[i].count;
+			if(!_.isNull(word)) {
+				var font_size = arr[i].count * config.stepSize + config.minSize;
+				word = word.replace(/"/g,'')
+				twodarr.push([word,font_size]);
+			}
+		}
+		cb(twodarr);
+	});
+}
+
+// ARTICLES ------------------------------------------------
+
 function getArticles(query, cb){
 	// This won't work for bodysearch
 	DBqueries.find(query.filter, function(err, docs) {
@@ -177,7 +169,6 @@ function getArticles(query, cb){
 	    	for (var i in results){
 	    		var headline = results[i].fields.headline
 	    		var re = new RegExp(query.word,"i");
-	    		// console.log(headline)
 	    		if (headline.search(re) != -1){
 	    			output.push(results[i])
 	    		}
@@ -186,6 +177,89 @@ function getArticles(query, cb){
 	    }
 	});
 }
+
+// API PARSING ---------------------------------------------
+
+function guardianSearch(query,cb){
+	var url, questions;
+	query["api-key"] = apikey.key
+	query["show-fields"] = "headline"
+	query["page-size"] = PAGE_SIZE
+	if (BODYSEARCH){
+		query["show-fields"] = "body,headline"
+	}
+	// decodeURI to replace %20 with a space.
+	questions = decodeURIComponent(query["q"]).split(" ")
+	for (var i in questions){
+		questions[i] = questions[i].replace(/([^a-z]+)/gi, '')
+	}
+	url = "http://content.guardianapis.com/search?" + querystring.stringify(query)
+	console.log(url)
+	request(url, function(err,res,bod){
+		if (err){
+			return err
+		} else {
+			var data = JSON.parse(bod),
+				results = data.response.results,
+				tally = tallyWords(results, questions),
+				twodarr = buildArray(tally)
+				output = {
+					"array": twodarr
+				};
+			cb(output)
+			if (CACHING){
+				query.array = twodarr
+				if (CACHING_RESULTS){
+					query.results = results
+				}
+				updateCache(query, function(){
+					console.log("Finished updating cache.")
+				})
+			}
+		}
+	})
+}
+
+function tallyWords(results, questions){
+	var tally = {} 
+	for (var i in results){
+		var fields = results[i].fields
+		for (var i in fields){
+			// To catch searching through body and headlines
+			var text = fields[i]
+		    var arr = text.split(' ')
+		    for (var ind in arr){
+		        // Discard possessives, numbers and uppercase.
+		        var word = arr[ind];
+		        word = word.replace(/'s/g, '')
+		        word = word.replace(/’s/g, '')
+		        word = word.replace(/([^a-z]+)/gi, '')
+		        word = word.toLowerCase()
+		        // If it's not one of the questions.
+		        if (questions.indexOf(word) == -1){
+		        	// Increment the tally.
+			        if (tally[word]){
+			            tally[word] += config.stepSize
+			        } else {
+			            tally[word] = config.minSize
+			        }
+		        }
+		    }
+		}
+	}
+	return tally
+}
+
+function buildArray(tally){
+	var twodarr = [] 
+	for (var word in tally){
+		if (config.filter.indexOf(word) == -1 && word.length > 1){
+		    twodarr.push([word,tally[word]])
+		}
+	}
+	return twodarr
+}
+
 
 
 module.exports = router;
