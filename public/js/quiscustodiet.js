@@ -174,9 +174,7 @@ $(document).ready(function(){
 			},time)
 		}
 		var title = $(".title h1:nth-child(2)");
-		console.log("cb0")
 		timeoutSwitch("Guardian", "Grauniad", grauniad_interval,function(){
-			console.log("cb1")
 			timeoutSwitch("Grauniad","Guardian",5000,switchTitle(grauniad_interval))
 		})
 	}

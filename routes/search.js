@@ -76,15 +76,16 @@ router.get('/articles', function(req, res, next) {
 	}
 });
 
-router.get('/totals', function(req, res, next) {
-	console.log(req.query)
-	getTotals(req.query,function(array){
-		var output = {
-			"array": array
-		}
-		res.send(output)
-	})
-});
+// router.get('/totals', function(req, res, next) {
+// 	console.log(req.query)
+// 	getTotals(req.query,function(array){
+// 		console.log("wowoooooo")
+// 		var output = {
+// 			"array": array
+// 		}
+// 		res.send(output)
+// 	})
+// });
 
 // CACHE --------------------------------------------------
 
@@ -111,18 +112,6 @@ function updateCache(query, cb){
 
 function getTotals(query, cb){
 	console.log("getting totals")
-	// var filter = {
-	//     "key": {
-	//         "q": true
-	//     },
-	//     "initial": {
-	//         "countq": 0
-	//     },
-	//     "reduce": function(obj, prev) {
-	//         if (obj.q != null) if (obj.q instanceof Array) prev.countq += obj.q.length;
-	//         else prev.countq++;
-	//     }
-	// }
 	var filter = {
 	    "key": {
 	        "q": true
@@ -187,6 +176,16 @@ function guardianSearch(query,cb){
 	query["page-size"] = PAGE_SIZE
 	if (BODYSEARCH){
 		query["show-fields"] = "body,headline"
+	}
+	if (askingForTotals(query["q"])){
+		getTotals(query, function(array){
+			console.log("got here")
+			var output = {
+				"array": array
+			}
+			cb(output)
+		})
+		return
 	}
 	// decodeURI to replace %20 with a space.
 	questions = decodeURIComponent(query["q"]).split(" ")
@@ -260,6 +259,14 @@ function buildArray(tally){
 	return twodarr
 }
 
+function askingForTotals(question){
+	question = question.replace(/"/g,"")
+	if (config.totals_keywords.indexOf(question) != -1){
+		return true
+	} else {
+		return false
+	}
+}
 
 
 module.exports = router;
