@@ -40,7 +40,8 @@ $(document).ready(function(){
 		navh = $("nav.navbar").outerHeight(),
 		canvh = screenh - navh,
 		canvas = document.getElementById('cloudCanvas'),
-		windoww = window.innerWidth;
+		windoww = window.innerWidth,
+		grauniad_interval = 30000; // in ms
 
 	// Canvas sizing
 	canvas.height = canvh
@@ -164,5 +165,21 @@ $(document).ready(function(){
 		})
 	}
 
+	// Just for fun
+	function switchTitle(grauniad_interval){
+		function timeoutSwitch(from,to,time,cb){
+			window.setTimeout(function(){
+				title.text(title.text().replace(from,to))
+				cb()
+			},time)
+		}
+		var title = $(".title h1:nth-child(2)");
+		console.log("cb0")
+		timeoutSwitch("Guardian", "Grauniad", grauniad_interval,function(){
+			console.log("cb1")
+			timeoutSwitch("Grauniad","Guardian",5000,switchTitle(grauniad_interval))
+		})
+	}
+	switchTitle(grauniad_interval)
 })
 
