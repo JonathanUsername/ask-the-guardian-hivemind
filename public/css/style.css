@@ -29,6 +29,10 @@ div.articles {
   text-align: center;
 }
 
+.start_box > p:first-child {
+  overflow:hidden;
+}
+
 .article-wrap {
   position: absolute;
   width: 100%;

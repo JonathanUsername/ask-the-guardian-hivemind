@@ -119,12 +119,15 @@ $(document).ready(function(){
 	}
 
 	function writeHello(){
-		var left = $("#navbar").position().left,
-			w = $("#navbar").width()
+		var nb = $("#navbar"),
 			sb = $(".start_box"),
-			l = $("#navbar").position().left;
+			left = nb.position().left,
+			w = nb.width()
+			l = nb.position().left,
+			// so ugly but I can't be arsed
+			padd = parseInt(nb.css("padding").split(" ")[1].replace("px",""));
 		sb.css({
-			"left": l,
+			"left": l + padd,
 			"width" : w + "px"
 		})
 		sb.show()
