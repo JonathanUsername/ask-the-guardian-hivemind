@@ -113,8 +113,40 @@ $(document).ready(function(){
 				console.log("Oops. That's not a valid hash.", e)
 				window.location.hash = ""
 			}
+		} else {
+			writeHello()
 		}
 	}
+
+	function writeHello(){
+		var left = $("#navbar").position().left,
+			w = $("#navbar").width()
+			sb = $(".start_box"),
+			l = $("#navbar").position().left;
+		sb.css({
+			"left": l,
+			"width" : w + "px"
+		})
+		sb.show()
+	}
+
+		// 	var sb = $("#start_box")
+		// var l = $("#navbar").position().left
+		// sb.css("left", l)
+		// sb.show()
+
+	function draw_arrow(context, startX, startY, size) 
+	           { 
+	               var arrowX = startX + 0.75*size; 
+	               var arrowTopY = startY - 0.707*(0.25*size);  
+	               var arrowBottomY = startY + 0.707*(0.25*size); 
+	               context.moveTo(startX, startY); 
+	               context.lineTo(startX+size, startX); 
+	               context.lineTo(arrowX, arrowTopY); 
+	               context.moveTo(startX+size, startX); 
+	               context.lineTo(arrowX, arrowBottomY); 
+	               context.stroke(); 
+	           } 
 
 	function getParams(){
 		params = {
@@ -130,6 +162,7 @@ $(document).ready(function(){
 		var qs, question, section, date;
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
+		$(".start_box").hide()
 		$(".fb-like").attr("data-href", window.location.href)
 		$("a.share-url").attr("href", window.location.href).text(window.location.href)
 		// Section cannot be left empty
@@ -170,12 +203,12 @@ $(document).ready(function(){
 		function timeoutSwitch(from,to,time,cb){
 			window.setTimeout(function(){
 				title.text(title.text().replace(from,to))
-				cb()
+				cb(grauniad_interval)
 			},time)
 		}
 		var title = $(".title h1:nth-child(2)");
-		timeoutSwitch("Guardian", "Grauniad", grauniad_interval,function(){
-			timeoutSwitch("Grauniad","Guardian",5000,switchTitle(grauniad_interval))
+		timeoutSwitch("Guardian", "Grauniad", grauniad_interval,function(grauniad_interval){
+			timeoutSwitch("Grauniad","Guardian",5000,switchTitle)
 		})
 	}
 	switchTitle(grauniad_interval)
