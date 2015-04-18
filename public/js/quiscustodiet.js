@@ -43,9 +43,7 @@ $(document).ready(function(){
 		windoww = window.innerWidth,
 		grauniad_interval = 30000; // in ms
 
-	// Canvas sizing
-	canvas.height = canvh
-	canvas.width = window.innerWidth
+	resizeCanvas()
 
 	// Get search query from hash.
 	checkHash(window.location.hash)
@@ -133,6 +131,7 @@ $(document).ready(function(){
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
 		$(".start_box").hide()
+		resizeCanvas()
 		$(".fb-like").attr("data-href", window.location.href)
 		$("a.share-url").attr("href", window.location.href).text(window.location.href)
 		// Section cannot be left empty
@@ -166,6 +165,16 @@ $(document).ready(function(){
 				clickHandle(item,dimension,event,params)
 			}
 		})
+	}
+
+	function resizeCanvas(){
+		var screenh = $("body").outerHeight(),
+			navh = $("nav.navbar").outerHeight(),
+			canvh = screenh - navh,
+			canvas = document.getElementById('cloudCanvas');
+
+		canvas.height = canvh
+		canvas.width = window.innerWidth
 	}
 
 	// Just for fun
