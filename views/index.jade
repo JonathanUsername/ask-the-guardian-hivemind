@@ -31,6 +31,9 @@ block content
                             option(value="environment") Environment
                             option(value="technology") Technology
                         input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
+                    div.start_box 
+                        p Enter a search term in the box above to see the most popular words used in related headlines.
+                        p You can click on the words in the results to see what articles they came from.
     div.article-wrap.articles  
         div.articles.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
             div.articles.topbar
@@ -72,10 +75,6 @@ block content
                         p
                             a.share-url(href="")
                         p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
-    div.start_box 
-        i.fa.fa-long-arrow-up
-        p Write a search term in the box above    
-        p You can click on the results to see what articles they came from.
     div.canvas-holder
         canvas#cloudCanvas
     div.mini-buttons.info#openInfo

@@ -114,42 +114,9 @@ $(document).ready(function(){
 				window.location.hash = ""
 			}
 		} else {
-			writeHello()
+			$(".start_box").show()
 		}
 	}
-
-	function writeHello(){
-		var nb = $("#navbar"),
-			sb = $(".start_box"),
-			left = nb.position().left,
-			w = nb.width()
-			l = nb.position().left,
-			// so ugly but I can't be arsed
-			padd = parseInt(nb.css("padding").split(" ")[1].replace("px",""));
-		sb.css({
-			"left": l + padd,
-			"width" : w + "px"
-		})
-		sb.show()
-	}
-
-		// 	var sb = $("#start_box")
-		// var l = $("#navbar").position().left
-		// sb.css("left", l)
-		// sb.show()
-
-	function draw_arrow(context, startX, startY, size) 
-	           { 
-	               var arrowX = startX + 0.75*size; 
-	               var arrowTopY = startY - 0.707*(0.25*size);  
-	               var arrowBottomY = startY + 0.707*(0.25*size); 
-	               context.moveTo(startX, startY); 
-	               context.lineTo(startX+size, startX); 
-	               context.lineTo(arrowX, arrowTopY); 
-	               context.moveTo(startX+size, startX); 
-	               context.lineTo(arrowX, arrowBottomY); 
-	               context.stroke(); 
-	           } 
 
 	function getParams(){
 		params = {
