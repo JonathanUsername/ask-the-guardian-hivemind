@@ -2,6 +2,10 @@
   font-family: BreeSerif;
   src: url(BreeSerif-Regular.otf); }
 
+@font-face {
+  font-family: EnglishTowne;
+  src: url(gothicnormal.otf); }
+
 a {
   color: #00B7FF; }
 
@@ -18,6 +22,11 @@ body {
 
 div.articles {
   display: none; }
+
+.nyt {
+  font-family: EnglishTowne; }
+  .nyt.subheader {
+    font-size: 20px; }
 
 .start_box {
   padding: 0 5px 5px 5px;

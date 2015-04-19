@@ -13,6 +13,7 @@ var config = require('../config.json')
 var mongojs = require('mongojs');
 var db = mongojs('guardian');
 var DBqueries = db.collection('queries');
+var DBnytqueries = db.collection('nytqueries');
 var DBresults = db.collection('results');
 var DBcaching = db.collection('caching');
 
@@ -22,7 +23,7 @@ db.on('error',function(err) {
 
 // CONSTANTS --------------------------------------------------
 
-var CACHING = true;
+var CACHING = false;
 var CACHING_RESULTS = true;
 // Delete records after a week
 var CACHING_TTL = 604800;
@@ -46,8 +47,19 @@ router.get('/', function(req, res, next) {
 					}
 					res.send(output)
 				} else {
-				 	guardianSearch(query, function(output){
-				 		res.send(output);
+				 	guardianSearch(query, function(output, questions, fields){
+				 		var twodarr = buildArray(tallyWords(output,questions, fields, false))
+				 		var to_send = { 
+				 			"array" : twodarr
+				 		}
+				 		res.send(to_send);
+			 			query.array = twodarr
+			 			if (CACHING_RESULTS){
+			 				query.results = output
+			 			}
+			 			updateCache(query, function(){
+			 				console.log("Finished updating cache.")
+			 			})
 				 	})
 				}
 			})
@@ -76,16 +88,13 @@ router.get('/articles', function(req, res, next) {
 	}
 });
 
-// router.get('/totals', function(req, res, next) {
-// 	console.log(req.query)
-// 	getTotals(req.query,function(array){
-// 		console.log("wowoooooo")
-// 		var output = {
-// 			"array": array
-// 		}
-// 		res.send(output)
-// 	})
-// });
+router.get('/nyt', function(req, res, next) {
+	console.log(req.query)
+	combineQueries(req.query,function(output){
+		console.log("wowoooooo", output)
+		res.send(output)
+	})
+});
 
 // CACHE --------------------------------------------------
 
@@ -179,7 +188,6 @@ function guardianSearch(query,cb){
 	}
 	if (askingForTotals(query["q"])){
 		getTotals(query, function(array){
-			console.log("got here")
 			var output = {
 				"array": array
 			}
@@ -199,30 +207,83 @@ function guardianSearch(query,cb){
 			return err
 		} else {
 			var data = JSON.parse(bod),
-				results = data.response.results,
-				tally = tallyWords(results, questions),
-				twodarr = buildArray(tally)
-				output = {
-					"array": twodarr
-				};
-			cb(output)
-			if (CACHING){
-				query.array = twodarr
-				if (CACHING_RESULTS){
-					query.results = results
-				}
-				updateCache(query, function(){
-					console.log("Finished updating cache.")
-				})
-			}
+				results = data.response.results;
+			cb(results, questions, "fields")
 		}
 	})
 }
 
-function tallyWords(results, questions){
-	var tally = {} 
+function nytSearch(query,cb){
+	// nyt api only returns 10 results per page. Damn.
+	var url, questions;
+	query["api-key"] = apikey.nytkey;
+	query["sort"] = 'newest';
+	query["fq"] = 'source:("The New York Times") AND body:("' + query["q"] + '")'
+	// query["fl"] = 'body,headline,web_url'	
+	// decodeURI to replace %20 with a space.
+	questions = decodeURIComponent(query["q"]).split(" ")
+	for (var i in questions){
+		questions[i] = questions[i].replace(/([^a-z]+)/gi, '')
+	}
+	url = "http://api.nytimes.com/svc/search/v2/articlesearch.json?" + querystring.stringify(query)
+	console.log(url)
+	request(url, function(err,res,bod){
+		if (err){
+			return err
+		} else {
+			console.log(JSON.parse(bod))
+			var data = JSON.parse(bod),
+				results = data.response.docs;
+			cb(results, questions, "headline")
+		}
+	})
+}
+
+function combineQueries(query, cb){
+	var returned = {}
+	nytSearch(query,function(results,questions,fields){
+		returned.nyt = tallyWords(results, questions, fields, true)
+		if (returned.gua) {
+			cb(compareTallies(returned))
+		}
+	})
+	guardianSearch(query,function(results,questions,fields){
+		returned.gua = tallyWords(results, questions, fields, true)
+		if (returned.nyt) {
+			cb(compareTallies(returned))
+		}
+	})
+}
+
+function compareTallies(obj){
+	var gua = obj.gua,
+		nyt = obj.nyt,
+		out = {};
+	for (var gkey in gua){
+		var gval = gua[gkey];
+		for (var nkey in nyt){
+			var nval = nyt[nkey]
+			// subtract one from the other, negative terms are NYT, positive are GUA
+			try {
+				(nkey == gkey) ? out[nkey] = nval - gval : false
+			} catch(e) {
+				debugger
+			}
+		}
+	}
+	return out
+}
+
+function tallyWords(results, questions, f, forCloud){
+	var tally = {},
+		step = 1,
+		min = 0;
+	if (forCloud){
+		step = config.stepSize;
+		min = config.minSize
+	}
 	for (var i in results){
-		var fields = results[i].fields
+		var fields = results[i][f]
 		for (var i in fields){
 			// To catch searching through body and headlines
 			var text = fields[i]
@@ -238,9 +299,9 @@ function tallyWords(results, questions){
 		        if (questions.indexOf(word) == -1){
 		        	// Increment the tally.
 			        if (tally[word]){
-			            tally[word] += config.stepSize
+			            tally[word] += step
 			        } else {
-			            tally[word] = config.minSize
+			            tally[word] = min
 			        }
 		        }
 		    }

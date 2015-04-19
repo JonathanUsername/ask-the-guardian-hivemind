@@ -21,7 +21,10 @@ html(lang='en')
       script(src='components/bootstrap/dist/js/bootstrap.js')
       script(src='components/bootstrap-datepicker/js/bootstrap-datepicker.js')
       //- endbower
-      script(src='js/quiscustodiet.js')
+      if INDEX
+        script(src='js/quiscustodiet.js')
+      else if NYT
+        script(src='js/vs-nyt.js')
       if ENV_DEVELOPMENT
         script(src='http://localhost:35729/livereload.js')
   body
