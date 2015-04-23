@@ -130,7 +130,7 @@ $(document).ready(function(){
 		var qs, question, section, date;
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
-		$(".start_box").remove()
+		$(".start_box").hide()
 		resizeCanvas()
 		$(".fb-like").attr("data-href", window.location.href)
 		$("a.share-url").attr("href", window.location.href).text(window.location.href)
@@ -168,16 +168,13 @@ $(document).ready(function(){
 	}
 
 	function resizeCanvas(){
-		var screenh = $("body").outerHeight(),
+		var screenh = $(window).outerHeight(),
 			navh = $("nav.navbar").outerHeight(),
-			boxh = $(".start_box").outerHeight(),
 			canvh = screenh - navh,
-			canvas = $('#cloudCanvas'),
-	        ctx = canvas[0].getContext('2d');
+			canvas = document.getElementById('cloudCanvas');
 
-
-		ctx.canvas.height = canvh
-		ctx.canvas.width = window.innerWidth
+		canvas.height = canvh
+		canvas.width = window.innerWidth
 	}
 
 	// Just for fun
