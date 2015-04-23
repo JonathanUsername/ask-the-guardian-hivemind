@@ -170,11 +170,14 @@ $(document).ready(function(){
 	function resizeCanvas(){
 		var screenh = $("body").outerHeight(),
 			navh = $("nav.navbar").outerHeight(),
+			boxh = $(".start_box").outerHeight(),
 			canvh = screenh - navh,
-			canvas = document.getElementById('cloudCanvas');
+			canvas = $('#cloudCanvas'),
+	        ctx = canvas[0].getContext('2d');
 
-		canvas.height = canvh
-		canvas.width = window.innerWidth
+
+		ctx.canvas.height = canvh
+		ctx.canvas.width = window.innerWidth
 	}
 
 	// Just for fun
