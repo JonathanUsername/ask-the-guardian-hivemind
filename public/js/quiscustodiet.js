@@ -130,28 +130,26 @@ $(document).ready(function(){
 		var qs, question, section, date;
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
+		$("#question").blur()
 		$(".start_box").hide()
-		// Timeout for soft keyboard to retract on mobile
-		window.setTimeout(function(){
-			resizeCanvas()
-			$(".fb-like").attr("data-href", window.location.href)
-			$("a.share-url").attr("href", window.location.href).text(window.location.href)
-			// Section cannot be left empty
-			$("#section").val() == "all" ? delete params.section : false;
-			qs = "?" + $.param(params)
-			$.ajax({
-				url:"/search" + qs
-			}).done(function(data){
-				if (data.array.length == 0){
-					alert("No results!")
-				} else {
-					displayCloud(data.array, fetchArticles, params)
-		    	}
-			}).fail(function(jqXHR,textStatus,errorThrown){
-				console.log(jqXHR,textStatus,errorThrown)
-				alert(textStatus,errorThrown,"Error connecting to server")
-			})
-		},500)
+		resizeCanvas()
+		$(".fb-like").attr("data-href", window.location.href)
+		$("a.share-url").attr("href", window.location.href).text(window.location.href)
+		// Section cannot be left empty
+		$("#section").val() == "all" ? delete params.section : false;
+		qs = "?" + $.param(params)
+		$.ajax({
+			url:"/search" + qs
+		}).done(function(data){
+			if (data.array.length == 0){
+				alert("No results!")
+			} else {
+				displayCloud(data.array, fetchArticles, params)
+	    	}
+		}).fail(function(jqXHR,textStatus,errorThrown){
+			console.log(jqXHR,textStatus,errorThrown)
+			alert(textStatus,errorThrown,"Error connecting to server")
+		})
 	}
 
 	function displayCloud(array, clickHandle, params){
