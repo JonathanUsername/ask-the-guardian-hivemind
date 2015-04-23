@@ -130,7 +130,7 @@ $(document).ready(function(){
 		var qs, question, section, date;
 		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
 		window.location.hash = params_for_sharing
-		$(".start_box").hide()
+		$(".start_box").remove()
 		resizeCanvas()
 		$(".fb-like").attr("data-href", window.location.href)
 		$("a.share-url").attr("href", window.location.href).text(window.location.href)
