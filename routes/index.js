@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var _ = require ('underscore');
-var all_words = require ('../words.json');
+var all_words = require ('../words.private.json');
 
 /* GET home page. */
 
@@ -19,9 +19,7 @@ router.get('/share', function(req, res) {
 });
 
 router.get('/total-searches', function(req, res) {
-	var today = new Date()
-	today = today.toISOString().split("T")[0]
-  	res.render('total-searches', { title: "Hivemind Searches", today: today, sharing: false, words: all_words });
+  	res.render('total-searches', { title: "Hivemind Searches" });
 });
 
 router.get('/totality', function(req, res) {
