@@ -11,7 +11,7 @@ $(document).ready(function(){
 		var array = data.arr.reverse()
 		console.log(array)
 		displayCloud(array, function(item){ 
-			var count = item[1] / (window.innerWidth / 700)
+			var count = parseInt(item[1] / (window.innerWidth / 700))
 			alert(count + " total searches for the phrase '" + item[0] + "'") 
 		}, null, windoww, canvas)
 	})
