@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    script(src="js/totals.js")
+    nav.navbar.navbar-default.navbar-static
+        div.container
+            div.row
+                div.col-xs-10.col-sm-7.col-md-7.col-lg-6.title
+                    h1.lightblue Let's ask 
+                    h1 The Guardian Hivemind
+                    p.subheader.lightblue This is what you reprobates search for
+    div.canvas-holder
+        canvas#cloudCanvas

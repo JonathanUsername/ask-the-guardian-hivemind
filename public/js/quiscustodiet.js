@@ -49,7 +49,37 @@ $(document).ready(function(){
 	checkHash(window.location.hash)
 
 
-	// Functions --------------------------------------------------------------------
+	switchTitle(grauniad_interval)
+})
+
+
+// Functions --------------------------------------------------------------------
+
+function displayCloud(array, clickHandle, params, windoww, canvas){
+	// Resize words according to window width
+	array.forEach(function(i){
+		i[1] = i[1] * Math.max(1, windoww / 700) 
+	})
+	WordCloud(canvas, {
+		list: array,
+		fontFamily: "BreeSerif",
+		minSize: 10,
+		gridSize:5 + Math.max(1, windoww / 700),
+		click: function(item,dimension,event){
+			clickHandle(item,dimension,event,params)
+		}
+	})
+}
+
+function resizeCanvas(){
+	var screenh = $(window).outerHeight(),
+		navh = $("nav.navbar").outerHeight(),
+		canvh = screenh - navh,
+		canvas = document.getElementById('cloudCanvas');
+
+	canvas.height = canvh
+	canvas.width = window.innerWidth
+}
 
 	function fetchArticles(item,dimension,event,params){
 		var word = item[0], 
@@ -90,7 +120,7 @@ $(document).ready(function(){
 				for (var i in arr){
 					arr[i][0] == item[0] ? alert("Query: "+item[0]+"\nFont size: "+arr[i][1]) : false
 				}
-			}, {})
+			}, {}, windoww, canvas)
 		})
 	}
 
@@ -144,7 +174,7 @@ $(document).ready(function(){
 			if (data.array.length == 0){
 				alert("No results!")
 			} else {
-				displayCloud(data.array, fetchArticles, params)
+				displayCloud(data.array, fetchArticles, params, windoww, canvas)
 	    	}
 		}).fail(function(jqXHR,textStatus,errorThrown){
 			console.log(jqXHR,textStatus,errorThrown)
@@ -152,31 +182,6 @@ $(document).ready(function(){
 		})
 	}
 
-	function displayCloud(array, clickHandle, params){
-		// Resize words according to window width
-		array.forEach(function(i){
-			i[1] = i[1] * Math.max(1, windoww / 700) 
-		})
-		WordCloud(canvas, {
-			list: array,
-			fontFamily: "BreeSerif",
-			minSize: 10,
-			gridSize:5 + Math.max(1, windoww / 700),
-			click: function(item,dimension,event){
-				clickHandle(item,dimension,event,params)
-			}
-		})
-	}
-
-	function resizeCanvas(){
-		var screenh = $(window).outerHeight(),
-			navh = $("nav.navbar").outerHeight(),
-			canvh = screenh - navh,
-			canvas = document.getElementById('cloudCanvas');
-
-		canvas.height = canvh
-		canvas.width = window.innerWidth
-	}
 
 	// Just for fun
 	function switchTitle(grauniad_interval){
@@ -191,6 +196,3 @@ $(document).ready(function(){
 			timeoutSwitch("Grauniad","Guardian",5000,switchTitle)
 		})
 	}
-	switchTitle(grauniad_interval)
-})
-
