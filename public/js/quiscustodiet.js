@@ -158,7 +158,9 @@ function resizeCanvas(){
 
 	function searchIt(params){
 		var qs, question, section, date;
-		var params_for_sharing = encodeURIComponent(JSON.stringify(params))
+		var params_for_sharing = encodeURIComponent(JSON.stringify(params)),
+			windoww = window.innerWidth,
+			canvas = document.getElementById('cloudCanvas');
 		window.location.hash = params_for_sharing
 		$("#question").blur()
 		$(".start_box").hide()
