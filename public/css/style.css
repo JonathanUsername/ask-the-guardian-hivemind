@@ -7,14 +7,38 @@ a {
 
 body {
   margin: 0;
-  width: 100vw;
+  max-width: 100vw;
   height: 100vh;
-  overflow: hidden;
   font-family: BreeSerif; }
+  body.cloud {
+    overflow: hidden; }
   body .canvas-holder {
     width: 100%;
     height: 80%;
     margin: 0; }
+  body .article_space {
+    max-width: 70vw;
+    margin: 0 auto;
+    color: #333;
+    font-size: 16px;
+    line-height: 24px; }
+    body .article_space img, body .article_space video, body .article_space figure, body .article_space iframe {
+      margin: 15px auto;
+      display: block;
+      max-width: 100%; }
+    body .article_space .headline {
+      font-size: 36px;
+      line-height: 40px; }
+    body .article_space .trailtext {
+      font-weight: 500;
+      font-family: Georgia;
+      font-size: 18px;
+      line-height: 22px;
+      color: #555;
+      margin-bottom: 40px; }
+    body .article_space .body {
+      font-weight: 100;
+      font-family: Georgia; }
 
 div.articles {
   display: none; }

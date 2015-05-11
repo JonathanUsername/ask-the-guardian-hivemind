@@ -4,61 +4,94 @@
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
 body {
-  margin: 0;
-  width: 100vw;
-  height:100vh;
-  overflow: hidden;
-  .canvas-holder{
-  	width:100%;
-  	height: 80%;
-  	margin: 0;
-  }
-	font-family: BreeSerif;
+    margin: 0;
+    max-width: 100vw;
+    height: 100vh;
+    &.cloud {
+	    overflow: hidden;
+    }
+    .canvas-holder {
+        width: 100%;
+        height: 80%;
+        margin: 0;
+    }
+    .article_space {
+    	max-width: 70vw;
+    	margin: 0 auto;
+    	color: #333;
+    	font-size: 16px;
+    	line-height: 24px;
+    	img, video, figure, iframe {
+    		margin: 15px auto;
+    		display: block;
+    		max-width: 100%;
+    	}
+    	.headline {
+    		font-size: 36px;
+    		line-height: 40px;
+    	}
+    	.trailtext {
+    		font-weight: 500;
+    		font-family: Georgia;
+    		font-size: 18px;
+			line-height: 22px;
+			color: #555;
+			margin-bottom: 40px;
+    	}
+    	.body {
+			font-weight: 100;
+			font-family: Georgia;
+    	}
+    }
+    font-family: BreeSerif;
 }
 
 div.articles {
-	display:none;
+    display: none;
 }
 
 .start_box {
-  padding: 0 5px 5px 5px;
-  color: white;
-  border-radius: 4px;
+    padding: 0 5px 5px 5px;
+    color: white;
+    border-radius: 4px;
 }
 
 .article-wrap {
-	position:absolute;
-	width:100%;
-	background: rgba(255,255,255,0);
+    position: absolute;
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
 }
+
 .article-box {
-	background: rgba(255,255,255,0.9);
-	overflow-y: scroll;
-	height: 80vh;
-	padding:20px;
-	.result {
-	  padding: 10px;
-	  background: #fff;
-	  margin: 15px;
-	}
+    background: rgba(255, 255, 255, 0.9);
+    overflow-y: scroll;
+    height: 80vh;
+    padding: 20px;
+    .result {
+        padding: 10px;
+        background: #fff;
+        margin: 15px;
+    }
 }
+
 .topbar {
-	background: #f6f6f6;
-	height: 20px;
-	height: auto;
-	padding: 5px;
-	overflow: auto;
-	margin:0;
-	border-bottom: 1px solid #4bc6df;
-	button {
-		float: right;
-		margin: 10px
-	}
+    background: #f6f6f6;
+    height: 20px;
+    height: auto;
+    padding: 5px;
+    overflow: auto;
+    margin: 0;
+    border-bottom: 1px solid #4bc6df;
+    button {
+        float: right;
+        margin: 10px
+    }
 }
+
 .overlay {
     z-index: 100;
     box-shadow: 2px 4px 10px #888;
@@ -67,64 +100,62 @@ div.articles {
 }
 
 .navbar {
-	background: #005689;
-	color:#fff;
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	border-bottom: 3px solid #00456E;
-	margin-bottom:5px;
-	#section {
-		min-width: 100px;
-		max-width: 180px;
-	}
-	#to-date {
-		min-width: 100px;
-		max-width: 150px;
-		padding-left:15px;
-	}
-	.input-block {
-		&.optional.closed {
-			display:none;
-		}
-		display: inline-block;
-		vertical-align: top;
-		margin-right:3px;
-		margin-bottom: 10px;
-	}
-	#navbar {
-		background: #00456E;
-	}
-	.title {
-		padding:10px;
-	}
-	h1 {
-		display:inline;
-	}
-	.lightblue {
-		color: #A8D8F2;
-	}
-	p.subheader {
-		display:none;
-	}
-	.navopt {
-		display:block;
-		width:100%;
-		padding:10px;
-		i {
-			font-size:20px
-		}
-		button {
-			height: 34px;
-			margin: 0 2px;
-		}
-	}
-	#question {
-		max-width:60%;
-	}
+    background: #005689;
+    color: #fff;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 3px solid #00456E;
+    margin-bottom: 5px;
+    #section {
+        min-width: 100px;
+        max-width: 180px;
+    }
+    #to-date {
+        min-width: 100px;
+        max-width: 150px;
+        padding-left: 15px;
+    }
+    .input-block {
+        &.optional.closed {
+            display: none;
+        }
+        display: inline-block;
+        vertical-align: top;
+        margin-right:3px;
+        margin-bottom: 10px;
+    }
+    #navbar {
+        background: #00456E;
+    }
+    .title {
+        padding: 10px;
+    }
+    h1 {
+        display: inline;
+    }
+    .lightblue {
+        color: #A8D8F2;
+    }
+    p.subheader {
+        display: none;
+    }
+    .navopt {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        i {
+            font-size: 20px
+        }
+        button {
+            height: 34px;
+            margin: 0 2px;
+        }
+    }
+    #question {
+        max-width: 60%;
+    }
 }
-
-
 
 // @media only screen and (min-height: 640px) {
 // 	div.signature {
@@ -140,76 +171,75 @@ div.articles {
 // 		}
 // 	}
 // }
-
 @media only screen and (max-width: 330px) {
-	.navbar {
-		.navopt {
-			min-width:300px;
-			p {
-				padding: 0;
-			}
-			display: inline-block;
-			padding: 10px;
-			&.section {
-				width: 66.666%;
-				select {
-					max-width:280px;
-				}
-			}
-			&.search {
-				vertical-align: top;
-				width:33.333%;
-			}
-		}
-		.title {
-			h1 {
-				font-size:20px;
-			}
-			padding-bottom: 10px;
-		}
-	}
+    .navbar {
+        .navopt {
+            min-width: 300px;
+            p {
+                padding: 0;
+            }
+            display: inline-block;
+            padding: 10px;
+            &.section {
+                width: 66.666%;
+                select {
+                    max-width: 280px;
+                }
+            }
+            &.search {
+                vertical-align: top;
+                width: 33.333%;
+            }
+        }
+        .title {
+            h1 {
+                font-size: 20px;
+            }
+            padding-bottom: 10px;
+        }
+    }
 }
 
 @media only screen and (max-width: 640px) {
-	.navbar .title {
-		h1 {
-			font-size:25px;
-		}
-		padding-bottom:10px;
-	}
-	.articles.article-wrap {
-		top:20px;
-	}
+    .navbar .title {
+        h1 {
+            font-size: 25px;
+        }
+        padding-bottom:10px;
+    }
+    .articles.article-wrap {
+        top: 20px;
+    }
 }
 
 @media only screen and (min-width: 1000px) {
-	.navbar p.subheader {
-		float: right;
-		margin-right: 35px;
-		display:block;
-	}
+    .navbar p.subheader {
+        float: right;
+        margin-right: 35px;
+        display: block;
+    }
 }
 
 .mini-buttons {
-	position:absolute;
-	top:0;
-	&.share {
-		top:20px;
-	}
-	right:0;
-	color:#A8D8F2;
-	padding:0 5px;
-	cursor:pointer;
-	font-size:15px;
+    position: absolute;
+    top: 0;
+    &.share {
+        top: 20px;
+    }
+    right:0;
+    color:#A8D8F2;
+    padding:0 5px;
+    cursor:pointer;
+    font-size:15px;
 }
 
-.info-box, .share-box {
-	display:none;
-	.article-box {
-		height:auto;
-	}
-	.share-box {
-	    min-height: 300px;
-	}
+.info-box,
+.share-box {
+    display: none;
+    .article-box {
+        height: auto;
+    }
+    .share-box {
+        min-height: 300px;
+    }
 }
-

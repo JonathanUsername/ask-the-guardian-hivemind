@@ -1,23 +1,18 @@
 extends layout
 
 block content
-    body.cloud
-        script SHARING=#{sharing}
-        div#fb-root
-        script (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=926380780728549";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
-        script(src='js/quiscustodiet.js')
+    body
+        script(src='js/writer.js')
         nav.navbar.navbar-default.navbar-static
             div.container
                 div.row
                     div.col-xs-10.col-sm-7.col-md-7.col-lg-6.title
-                        h1.lightblue Let's ask 
-                        h1 The Guardian Hivemind
-                        p.subheader.lightblue Left-wing headline soup. Freshly regurgitated.
+                        h1.lightblue Let's write like 
+                        h1 The Guardian
+                        p.subheader.lightblue Journalists. Who needs them?
                     div#navbar.col-xs-12.col-sm-5.col-md-5.col-lg-5
-                        //- div.navopt.section
-                        //-     input(placeholder="Enter a tag")
                         div.navopt.search
-                            p What do you think about...
+                            p Write me an article about...
                             input#question.input-block(type="text", class="form-control", placeholder='')
                             button.btn.btn-primary#search Ask
                             button.btn.btn-primary#openOptions
@@ -34,17 +29,13 @@ block content
                                 option(value="technology") Technology
                             input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
                         div.start_box 
-                            p Enter a search term in the box above to see the most popular words used in related headlines.
-                            p You can click on the words in the results to see what articles they came from.
-        div.article-wrap.articles  
-            div.articles.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
-                div.articles.topbar
-                    div.col-xs-10 
-                        h3 Articles
-                    div.col-xs-2
-                        button.btn#closeArticles
-                            span.glyphicon.glyphicon-remove
-                div.articles.article-box
+                            p Enter a search term in the box above to generate an article.
+                            p How drunkenly would you like it to be written? (ie. how random)
+                            select#pl.input-block.form-control
+                                option(value="4") Tipsy
+                                option(value="3", selected="selected") Drunk
+                                option(value="2") Sloshed
+                                option(value="1") Hospitalised
         div.info-box
             div.article-wrap
                 div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
@@ -77,8 +68,10 @@ block content
                             p
                                 a.share-url(href="")
                             p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
-        div.canvas-holder
-            canvas#cloudCanvas
+        div.article_space
+            h1.headline
+            h2.trailtext
+            p.body
         div.mini-buttons.info#openInfo
             i.fa.fa-info-circle
         div.mini-buttons.share#openShare

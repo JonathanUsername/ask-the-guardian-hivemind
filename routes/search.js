@@ -76,6 +76,26 @@ router.get('/articles', function(req, res, next) {
 	}
 });
 
+router.get('/write', function(req, res, next) {
+	var query;
+	if (!(_.isEmpty(req.query))){
+		goGetter(req.query, function(exists, docs){
+			if (exists){
+				res.send(docs)
+			} else {
+				console.log(docs)
+				var output = JSON.stringify({
+					"Headline": "ERROR",
+					"Body": docs
+				})
+				res.send(output)
+			}
+		})
+	} else {
+		res.send("No query.")
+	}
+});
+
 // router.get('/totals', function(req, res, next) {
 // 	console.log(req.query)
 // 	getTotals(req.query,function(array){
@@ -145,7 +165,6 @@ function getTotals(query, cb){
 // ARTICLES ------------------------------------------------
 
 function getArticles(query, cb){
-	// This won't work for bodysearch
 	DBqueries.find(query.filter, function(err, docs) {
 	    if (docs.length == 0){
 	    	console.log("Record not in cache.")
@@ -165,6 +184,19 @@ function getArticles(query, cb){
 	    	cb(true, output)
 	    }
 	});
+}
+
+function goGetter(query, cb){
+	// Just queries separate API written in Go...
+	url = "http://127.0.0.1:8080/write?" + querystring.stringify(query)
+	console.log(url)
+	request(url, function(err,res,bod){
+		if (err){
+			cb(false, err)
+		} else {
+			cb(true, bod)
+		}
+	})
 }
 
 // API PARSING ---------------------------------------------
