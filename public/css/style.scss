@@ -29,8 +29,10 @@ body {
     		margin: 15px auto;
     		display: block;
     		max-width: 100%;
+        }
+        img, video {
             height: auto;
-    	}
+        }
     	.headline {
     		font-size: 36px;
     		line-height: 40px;
