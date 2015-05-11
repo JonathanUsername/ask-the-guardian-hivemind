@@ -46,6 +46,7 @@ function searchIt(params){
 		// var body = cleanBody(data.Body)
 		$(".article_space .headline").html(data.Headline)
 		$(".article_space .trailtext").html(data.Trailtext)
+		$(".article_space .main").html(data.Main)
 		$(".article_space .body").html(data.Body)
 	})
 }
