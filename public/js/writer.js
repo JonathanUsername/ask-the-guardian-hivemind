@@ -31,6 +31,7 @@ $(document).ready(function(){
 	var grauniad_interval = 30000;
 	// Start loop
 	switchTitle(grauniad_interval)
+	getHash()
 })
 
 
@@ -38,17 +39,28 @@ $(document).ready(function(){
 
 
 function searchIt(params){
-	qs = "?" + $.param(params)
+	window.location.hash = "";
+	var qs = "?" + $.param(params);
 	$.ajax({
 		url:"/search/write" + qs
 	}).done(function(data){
-		data = JSON.parse(data)
+		var json = JSON.parse(data)
+		var article = json.article
 		// var body = cleanBody(data.Body)
-		$(".article_space .headline").html(data.Headline)
-		$(".article_space .trailtext").html(data.Trailtext)
-		$(".article_space .main").html(data.Main)
-		$(".article_space .body").html(data.Body)
+		$(".article_space .headline").html(article.Headline)
+		$(".article_space .trailtext").html(article.Trailtext)
+		$(".article_space .main").html(article.Main)
+		$(".article_space .body").html(article.Body)
+		preparePage(json.cache);
 	})
+}
+
+function getHash(){
+	if (window.location.hash){
+		var params = getParams()
+		params.cache = window.location.hash.replace("#","")
+		searchIt(params)
+	}
 }
 
 // need to do this before it comes, I think
@@ -68,6 +80,11 @@ function getParams(){
 		"wl": "500"
 	}
 	return params
+}
+
+function preparePage(cache){
+	window.location.hash = cache;
+	$("a.share-url").attr("href", window.location.href).text(window.location.href)
 }
 
 

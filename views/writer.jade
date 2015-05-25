@@ -17,25 +17,17 @@ block content
                             button.btn.btn-primary#search Ask
                             button.btn.btn-primary#openOptions
                                 i.fa.fa-angle-down
-                            select#section.input-block.optional.closed.form-control
-                                option(value="all") All sections
-                                option(value="commentisfree") Comment is Free
-                                option(value="news") News
-                                option(value="politics") Politics
-                                option(value="world") World
-                                option(value="culture") Culture
-                                option(value="business") Economy
-                                option(value="environment") Environment
-                                option(value="technology") Technology
-                            input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
+                            p.input-block.closed.optional Markov chains use a prefix length to determine the likelihood of the next word. The default is 2.
+                            p.input-block.closed.optional How random would you like it to be? 
+                            select#pl.input-block.closed.optional.form-control
+                                option(value="4") Almost believable (4)
+                                option(value="3") Drunken ramblings (3)
+                                option(value="2", selected="selected") Default (2)
+                                option(value="1") Utterly Nonsensical (1)
                         div.start_box 
-                            p Enter a search term in the box above to generate an article.
-                            p How drunkenly would you like it to be written? (ie. how random)
-                            select#pl.input-block.form-control
-                                option(value="4") Tipsy
-                                option(value="3", selected="selected") Drunk
-                                option(value="2") Sloshed
-                                option(value="1") Hospitalised
+                            p This site uses Markov chains to ape the writing of an article from the Guardian. Sometimes it's hilarious, sometimes it's nonsensical. 
+                            p If you get a good one, share it by saving the url. 
+                            p Enter a search term in the box above to generate an article based on all articles that feature those words. Broader search terms are better, since there's more material to work with.
         div.info-box
             div.article-wrap
                 div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
@@ -46,11 +38,9 @@ block content
                             button.btn#closeInfo
                                 span.glyphicon.glyphicon-remove
                     div.article-box 
-                        p This web app was designed and built by me, Jon King, with the help of a few well-known libraries. It's basically a simple Express app built with NodeJS, cached with MongoDB, parsing requests to the Guardian's API and feeding them back to you to be sprayed onto your screens and end up as a little puddle of psychedelic journalism.
+                        p This web app was designed and built by me, Jon King, with the help of a few well-known libraries. It's basically a simple Express app built with NodeJS, cached with MongoDB, parsing requests to the Guardian's API and feeding them back to you to be munged into Markov chains by a separate API written in Go.
                         p You can see all the intimate details of the project here - 
-                            a(href="https://github.com/JonathanUsername/ask-the-guardian-hivemind")  on the Github page
-                        //- p Alternatively, here you can see -
-                        //-     a#totals(href="#")  what other people have been searching for...
+                            a(href="https://github.com/JonathanUsername/guardian-hivemind-markov")  on the Github page
         div.share-box
             div.article-wrap
                 div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
@@ -62,10 +52,7 @@ block content
                                 span.glyphicon.glyphicon-remove
                     div.article-box
                         div.sharing 
-                            p Share on Facebook:
-                                div(class="fb-like" data-href="https://www.theguardianhivemind.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true")
-                            p Or you can share the URL:
-                            p
+                            p To share, copy this url:
                                 a.share-url(href="")
                             p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
         div.article_space

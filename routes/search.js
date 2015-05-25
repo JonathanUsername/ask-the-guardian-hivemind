@@ -85,8 +85,10 @@ router.get('/write', function(req, res, next) {
 			} else {
 				console.log(docs)
 				var output = JSON.stringify({
-					"Headline": "ERROR",
-					"Body": docs
+					"article": {
+						"Headline": "ERROR",
+						"Body": docs
+					}
 				})
 				res.send(output)
 			}

@@ -25,7 +25,8 @@ body {
     body .article_space img, body .article_space video, body .article_space figure, body .article_space iframe {
       margin: 15px auto;
       display: block;
-      max-width: 100%;
+      max-width: 100%; }
+    body .article_space img, body .article_space video {
       height: auto; }
     body .article_space .headline {
       font-size: 36px;
