@@ -5,6 +5,9 @@ $(document).ready(function(){
 	    	searchIt(getParams());
 	    }
 	})
+	$("#question").on("click", function(){
+		$(".start_box").slideDown()
+	})
 	$("#openOptions").click(function(){
 		icon = $("i.fa", this);
 		icon.toggleClass("fa-angle-down");
@@ -41,12 +44,16 @@ $(document).ready(function(){
 function searchIt(params){
 	window.location.hash = "";
 	var qs = "?" + $.param(params);
+	$(".start_box").slideUp()
+	$(".article_space").children().empty()
+	$(".spinner").show()
 	$.ajax({
 		url:"/search/write" + qs
 	}).done(function(data){
 		var json = JSON.parse(data)
 		var article = json.article
 		// var body = cleanBody(data.Body)
+		$(".spinner").hide()
 		$(".article_space .headline").html(article.Headline)
 		$(".article_space .trailtext").html(article.Trailtext)
 		$(".article_space .main").html(article.Main)

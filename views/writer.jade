@@ -25,8 +25,8 @@ block content
                                 option(value="2", selected="selected") Default (2)
                                 option(value="1") Utterly Nonsensical (1)
                         div.start_box 
-                            p This site uses Markov chains to ape the writing of an article from the Guardian. Sometimes it's hilarious, sometimes it's nonsensical. 
-                            p If you get a good one, share it by saving the url. 
+                            p This site uses Markov chains to ape the writing of an article from the Guardian. Sometimes it's hilarious, sometimes it's nonsensical. You can change the degree of random by clicking the arrow.
+                            p If you get a good one, share it by copying the url. 
                             p Enter a search term in the box above to generate an article based on all articles that feature those words. Broader search terms are better, since there's more material to work with.
         div.info-box
             div.article-wrap
@@ -53,8 +53,9 @@ block content
                     div.article-box
                         div.sharing 
                             p To share, copy this url:
-                                a.share-url(href="")
+                            a.share-url(href="")
                             p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
+        div.spinner
         div.article_space
             h1.headline
             h2.trailtext

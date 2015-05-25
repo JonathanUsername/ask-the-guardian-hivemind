@@ -55,6 +55,15 @@ body {
 			font-family: Georgia;
     	}
     }
+    .spinner {
+        background: url("../img/computing.gif");
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        max-width: 500px;
+        margin: 10px auto;
+    }
     font-family: BreeSerif;
 }
 
