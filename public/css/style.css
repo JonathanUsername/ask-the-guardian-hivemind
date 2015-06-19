@@ -52,7 +52,8 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     max-width: 500px;
-    margin: 10px auto; }
+    margin: 10px auto;
+    display: none; }
 
 div.articles {
   display: none; }
