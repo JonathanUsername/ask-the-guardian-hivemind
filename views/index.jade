@@ -1,85 +1,33 @@
 extends layout
 
 block content
-    body.cloud
-        script SHARING=#{sharing}
-        div#fb-root
-        script (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3&appId=926380780728549";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));
-        script(src='js/quiscustodiet.js')
-        nav.navbar.navbar-default.navbar-static
-            div.container
-                div.row
-                    div.col-xs-10.col-sm-7.col-md-7.col-lg-6.title
-                        h1.lightblue Let's ask 
-                        h1 The Guardian Hivemind
-                        p.subheader.lightblue Left-wing headline soup. Freshly regurgitated.
-                    div#navbar.col-xs-12.col-sm-5.col-md-5.col-lg-5
-                        //- div.navopt.section
-                        //-     input(placeholder="Enter a tag")
-                        div.navopt.search
-                            p What do you think about...
-                            input#question.input-block(type="text", class="form-control", placeholder='')
-                            button.btn.btn-primary#search Ask
-                            button.btn.btn-primary#openOptions
-                                i.fa.fa-angle-down
-                            select#section.input-block.optional.closed.form-control
-                                option(value="all") All sections
-                                option(value="commentisfree") Comment is Free
-                                option(value="news") News
-                                option(value="politics") Politics
-                                option(value="world") World
-                                option(value="culture") Culture
-                                option(value="business") Economy
-                                option(value="environment") Environment
-                                option(value="technology") Technology
-                            input#to-date.input-block.optional.closed.datepicker(type="text", class="form-control", data-date-format="yyyy-mm-dd", placeholder='#{today}', value='#{today}')
-                        div.start_box 
-                            p Enter a search term in the box above to see the most popular words used in related headlines.
-                            p You can click on the words in the results to see what articles they came from.
-        div.article-wrap.articles  
-            div.articles.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
-                div.articles.topbar
-                    div.col-xs-10 
-                        h3 Articles
-                    div.col-xs-2
-                        button.btn#closeArticles
-                            span.glyphicon.glyphicon-remove
-                div.articles.article-box
-        div.info-box
-            div.article-wrap
-                div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
-                    div.topbar
-                        div.col-xs-10
-                             h3 Info
-                        div.col-xs-2
-                            button.btn#closeInfo
-                                span.glyphicon.glyphicon-remove
-                    div.article-box 
-                        p This web app was designed and built by me, Jon King, with the help of a few well-known libraries. It's basically a simple Express app built with NodeJS, cached with MongoDB, parsing requests to the Guardian's API and feeding them back to you to be sprayed onto your screens and end up as a little puddle of psychedelic journalism.
-                        p You can see all the intimate details of the project here - 
-                            a(href="https://github.com/JonathanUsername/ask-the-guardian-hivemind")  on the Github page
-                        //- p Alternatively, here you can see -
-                        //-     a#totals(href="#")  what other people have been searching for...
-        div.share-box
-            div.article-wrap
-                div.overlay.col-xs-12.col-md-8.col-md-offset-2.col-lg-6.col-lg-offset-3
-                    div.topbar
-                        div.col-xs-10
-                             h3 Sharing
-                        div.col-xs-2
-                            button.btn#closeShare
-                                span.glyphicon.glyphicon-remove
-                    div.article-box
-                        div.sharing 
-                            p Share on Facebook:
-                                div(class="fb-like" data-href="https://www.theguardianhivemind.com" data-layout="button" data-action="like" data-show-faces="true" data-share="true")
-                            p Or you can share the URL:
-                            p
-                                a.share-url(href="")
-                            p Each search is stored as a hash by your browser, so you can always use the back button to go to previous searches, or copy the URL to share it with someone else.
-        div.canvas-holder
-            canvas#cloudCanvas
-        div.mini-buttons.info#openInfo
-            i.fa.fa-info-circle
-        div.mini-buttons.share#openShare
-            i.fa.fa-share-alt
+    body
+        div.indexwrapper
+            div.navbar
+                div.title.welcome
+                    h1.lightblue Welcome to 
+                    h1 The Guardian Hivemind
+                div.welcome
+                    div.para 
+                        p My name's Jonathan King and this is a site for some projects I made making use of The Guardian's excellent API. 
+                        p You can have a look at the code used to make them  
+                            a(href="http://www.github.com/JonathanUsername")  on GitHub
+            div.links
+                div.link
+                    h2 Let's Write The Guardian
+                        br
+                        strong Article Generator
+                    p Who needs journalists when you've got an infinite number of cyber monkeys on digital typewriters? That's right! This app uses probabilistic modelling to generate an article. Just stick in a search term and read a unique rejumbling of articles on that issue. The broader the term, the better the results, since it needs to be fed a lot of articles to work well. Be aware it's quite hit-and-miss, since it writes all the HTML for the article according in this way and sometimes it gets quite creative with the formatting. You can even select the level of randomness, to turn up or down the level of insanity. 
+                    p.question Q: Why do you think this is cool?
+                    p.answer A: Sometimes it generates an article that someone as childish as me thinks is HILARIOUS.
+                    a(href="/writer")
+                        div.liftclick.button Try It
+                div.link
+                    h2 Let's Ask The Guardian Hivemind
+                        br
+                        strong Word Cloud
+                    p Have you ever wished you could ask the newspaper to reply to questions as if it was a patient undergoing rehabilitative art therapy after a severe trauma? Well, good news! Now you can, with this simple web app you can put in a search term and all the most commonly used words in the context of that term will be sprayed onto your screen in a psychdelic semantic puddle.
+                    p.question Q: Why do you think this is cool?
+                    p.answer A: You can find out what The Guardian "thinks" about certain subjects.
+                    a(href="/cloud")
+                        div.liftclick.button Try It

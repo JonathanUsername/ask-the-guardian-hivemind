@@ -11,6 +11,12 @@ router.get('/', function(req, res) {
   	res.render('index', { title: "Let's Ask The Guardian Hivemind", today: today, sharing: false });
 });
 
+router.get('/cloud', function(req, res) {
+	var today = new Date()
+	today = today.toISOString().split("T")[0]
+  	res.render('cloud', { title: "Let's Ask The Guardian Hivemind", today: today, sharing: false });
+});
+
 router.get('/writer', function(req, res) {
 	var today = new Date()
 	today = today.toISOString().split("T")[0]
