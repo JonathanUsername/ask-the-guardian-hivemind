@@ -3,6 +3,8 @@
     src: url(BreeSerif-Regular.otf);
 }
 
+$lightblue : #A8D8F2;
+
 a {
     color: #00B7FF;
 }
@@ -66,6 +68,76 @@ body {
         display:none;
     }
     font-family: BreeSerif;
+}
+
+.indexwrapper {
+    a {
+        color:#00B7FF;
+    }
+    a:visited, a:focus {
+        color: #00B7FF;
+    }
+    a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+    .welcome {
+        padding: 20px;
+        background: #005689;
+        color: white;
+        display: inline-block;
+        > * {
+            display: inline;
+        }
+        &.title {
+            margin-right: 65px;
+        }
+    }
+    .links {
+        .link {
+            border: 2px solid #00456E;
+            border-radius: 4px;
+            color: #00456E;
+            padding: 20px;
+            margin: 20px;
+            transition: 0.5s;
+            max-width: 600px;
+            display: inline-block;
+            vertical-align: top;
+            h2 {
+                margin-top: 0;
+            }
+        }
+    }
+    a:hover {
+        color: #fff;
+    }
+    .question, .answer {
+        color: #6c6c6c
+    }
+    .liftclick {
+        &.button {
+              padding: 20px;
+              display: block;
+              margin: 25px auto 0 auto;
+              text-align: center;
+              border-radius: 4px;
+              background: #005689;
+              font-size: 1.5em;
+              max-width: 200px;
+              transition: 0.2s;
+        }
+        &:hover {
+            // background: $lightblue;
+            transform: translateY(-3px);
+            box-shadow: 0px 5px 5px #666;
+        }
+        &:active {
+            transition: 0s;
+            transform: none;
+            box-shadow: none;
+        }
+    }
 }
 
 div.articles {
@@ -152,9 +224,6 @@ div.articles {
     h1 {
         display: inline;
     }
-    .lightblue {
-        color: #A8D8F2;
-    }
     p.subheader {
         display: none;
     }
@@ -175,19 +244,47 @@ div.articles {
     }
 }
 
+.lightblue {
+    color: $lightblue;
+}
+
+.mini-buttons {
+    position: absolute;
+    top: 0;
+    &.share {
+        top: 20px;
+    }
+    right:0;
+    color:#A8D8F2;
+    padding:0 5px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.info-box,
+.share-box {
+    display: none;
+    .article-box {
+        height: auto;
+    }
+    .share-box {
+        min-height: 300px;
+    }
+}
+
 // @media only screen and (min-height: 640px) {
-// 	div.signature {
-// 		z-index: 1000;
-// 		position: absolute;
-// 		right: 0;
-// 		bottom: 0;
-// 		opacity: 0.3;
-// 		background: #fff;
-// 		padding: 5px 10px;
-// 		&:hover{
-// 			opacity:1;
-// 		}
-// 	}
+//  div.signature {
+//      z-index: 1000;
+//      position: absolute;
+//      right: 0;
+//      bottom: 0;
+//      opacity: 0.3;
+//      background: #fff;
+//      padding: 5px 10px;
+//      &:hover{
+//          opacity:1;
+//      }
+//  }
 // }
 @media only screen and (max-width: 330px) {
     .navbar {
@@ -235,29 +332,5 @@ div.articles {
         float: right;
         margin-right: 35px;
         display: block;
-    }
-}
-
-.mini-buttons {
-    position: absolute;
-    top: 0;
-    &.share {
-        top: 20px;
-    }
-    right:0;
-    color:#A8D8F2;
-    padding:0 5px;
-    cursor:pointer;
-    font-size:15px;
-}
-
-.info-box,
-.share-box {
-    display: none;
-    .article-box {
-        height: auto;
-    }
-    .share-box {
-        min-height: 300px;
     }
 }

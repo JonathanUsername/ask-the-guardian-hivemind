@@ -46,13 +46,14 @@ function searchIt(params){
 	var qs = "?" + $.param(params);
 	$(".start_box").slideUp()
 	$(".article_space").children().empty()
+	$("#question").blur()
 	$(".spinner").show()
 	$.ajax({
 		url:"/search/write" + qs
 	}).done(function(data){
 		var json = JSON.parse(data)
 		var article = json.article
-		// var body = cleanBody(data.Body)
+		// var body = cleanBody(article.Body)
 		$(".spinner").hide()
 		$(".article_space .headline").html(article.Headline)
 		$(".article_space .trailtext").html(article.Trailtext)
